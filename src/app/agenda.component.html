@@ -1,0 +1,21 @@
+<h1 class='center'>Agenda</h1>
+<div class='container'>
+  <div class="row">
+    <div *ngFor='let appointment of appointments' class="col s6 m4">
+      <div class="card horizontal" (click)="selectAppointment(appointment)" pkmnBorderCard>
+        <!-- <div class="card-image">
+          <img [src]="appointment.date">
+        </div> -->
+        <div class="card-stacked">
+          <div class="card-content">
+            <p>{{ appointment.reason }}</p>
+            <p><small>{{ appointment.date | date: "dd/MM/yyyy"}}</small></p>
+            <span *ngFor="let type of appointment.type">
+              class='{{ type | pokemonTypeColor }} > {{ type }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
