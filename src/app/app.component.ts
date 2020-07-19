@@ -13,8 +13,8 @@ export class AppComponent {
 import { Component } from '@angular/core';
 import {OnInit} from '@angular/core';
 
-import {Appointment} from './appointment';
-import {APPOINTMENTS} from './mock-appointments';
+import {Appointment} from './agenda/appointment';
+import {APPOINTMENTS} from './agenda/mock-appointments';
 
 @Component({
   selector: 'app-vetolib',
