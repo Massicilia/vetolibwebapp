@@ -13,7 +13,7 @@ export class PersonalDetailsComponent implements OnInit {
   ngOnInit(): void {}
 
   goBack(): void {
-    this.router.navigate(['/agenda']);
+    this.router.navigate(['/appointment']);
     //window.history.back();
   }
 

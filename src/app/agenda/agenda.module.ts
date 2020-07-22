@@ -1,30 +1,39 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AgendaRoutingModule } from './agenda-routing.module';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 
-import { ListAppointmentComponent } from './agenda.component';
-import { AppointmentComponent } from './appointment.component';
-import { DetailsAppointmentComponent } from './details-appointment.component';
-import { ClientComponent } from './client.component';
-import { PetComponent} from './pet.component';
-import { BorderCardDirective } from './border-card.directive';
-import { PokemonTypeColorPipe } from './pokemon-type-color.pipe';
+import { DropDownListAllModule, MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
+
+import { MaskedTextBoxModule, UploaderAllModule } from '@syncfusion/ej2-angular-inputs';
+
+import { ToolbarAllModule, ContextMenuAllModule } from '@syncfusion/ej2-angular-navigations';
+
+import { ButtonAllModule } from '@syncfusion/ej2-angular-buttons';
+
+import { CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
+
+import { DatePickerAllModule, TimePickerAllModule, DateTimePickerAllModule } from '@syncfusion/ej2-angular-calendars';
+
+import { NumericTextBoxAllModule } from '@syncfusion/ej2-angular-inputs';
+
+import { ScheduleAllModule, RecurrenceEditorAllModule } from '@syncfusion/ej2-angular-schedule';
+
+import { HttpModule } from '@angular/http';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { RouterModule } from '@angular/router';
+
+import { CommonModule } from '@angular/common';
+
+import { BrowserModule } from '@angular/platform-browser';
+
+import { NgModule } from '@angular/core';
+import { AgendaComponent } from './agenda.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AgendaRoutingModule
-  ],
-  declarations: [
-    ListAppointmentComponent,
-    AppointmentComponent,
-    DetailsAppointmentComponent,
-    ClientComponent,
-    PetComponent,
-
-    BorderCardDirective,
-    PokemonTypeColorPipe,
-  ],
-  providers: []
+  declarations: [ AgendaComponent ],
+  imports: [ CommonModule, HttpModule, ScheduleAllModule, RecurrenceEditorAllModule,   NumericTextBoxAllModule, DatePickerAllModule, TimePickerAllModule, DateTimePickerAllModule, CheckBoxAllModule, ToolbarAllModule,   DropDownListAllModule, ContextMenuAllModule, MaskedTextBoxModule, UploaderAllModule, MultiSelectAllModule, TreeViewModule, ButtonAllModule, BrowserModule],
+  providers: [],
+  bootstrap: [AgendaComponent]
 })
+// @ts-ignore
 export class AgendaModule { }

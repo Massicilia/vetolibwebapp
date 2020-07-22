@@ -1,21 +1,33 @@
-<h1 class='center'>Agenda</h1>
-<div class='container'>
-  <div class="row">
-    <div *ngFor='let appointment of appointments' class="col s6 m4">
-      <div class="card horizontal" (click)="selectAppointment(appointment)" pkmnBorderCard>
-        <!-- <div class="card-image">
-          <img [src]="appointment.date">
-        </div> -->
-        <div class="card-stacked">
-          <div class="card-content">
-            <p>{{ appointment.reason }}</p>
-            <p><small>{{ appointment.date | date: "dd/MM/yyyy"}}</small></p>
-            <span *ngFor="let type of appointment.type">
-              class='{{ type | pokemonTypeColor }} > {{ type }}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="control-section">
+  <div class="col-lg-12 content-wrapper">
+    <ejs-schedule #scheduleObj width='100%' height='650px' [selectedDate]="selectedDate"
+                  [eventSettings]="eventSettings" (eventRendered)="onEventRendered($event)" [timeScale]="timeScale">
+      <ng-template #timeScaleMajorSlotTemplate let-data>
+        <div class="majorTime">{{getMajorTime(data.date)}}</div>
+      </ng-template>
+      <ng-template #timeScaleMinorSlotTemplate let-data>
+        <div class="minorTime">{{getMinorTime(data.date)}}</div>
+      </ng-template>
+      <ng-template #dateHeaderTemplate let-data>
+        <div class="date-text">{{getDateHeaderText(data.date)}}</div>
+      </ng-template>
+      <e-header-rows>
+        <e-header-row option='Month'>
+          <ng-template #template let-data>
+            <span [innerHTML]="getMonthDetails(data)"></span>
+          </ng-template>
+        </e-header-row>
+        <e-header-row option='Week'>
+          <ng-template #template let-data>
+            <span [innerHTML]="getWeekDetails(data)"></span>
+          </ng-template>
+        </e-header-row>
+        <e-header-row option='Date'></e-header-row>
+        <e-header-row option='Hour'></e-header-row>
+      </e-header-rows>
+      <e-views>
+        <e-view displayName='TimelineViews' option='TimelineWeek'></e-view>
+      </e-views>
+    </ejs-schedule>
   </div>
 </div>

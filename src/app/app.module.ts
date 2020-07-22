@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AccountModule } from './account/account.module';
-import { AgendaModule } from './agenda/agenda.module';
+import { AppointmentModule } from './appointment/appointment.module';
 import { AuthentificationModule } from './authentification/authentification.module';
 import { BillingandinvoicesModule } from './billingandinvoices/billingandinvoices.module';
 
@@ -19,7 +19,7 @@ import { PageNotFoundComponent } from './page-not-found';
   imports: [
     BrowserModule,
     AccountModule,
-    AgendaModule,
+    AppointmentModule,
     AuthentificationModule,
     BillingandinvoicesModule,
     AppRoutingModule

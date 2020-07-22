@@ -2,31 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Appointment } from './appointment';
 import { APPOINTMENTS } from './mock-appointments';
+import { AppointmentService } from './appointment.service';
 
 @Component({
   selector: 'details-appointment',
-  templateUrl: './details-appointment.component.html'
+  templateUrl: './details-appointment.component.html',
+  providers:[AppointmentService]
 })
 export class DetailsAppointmentComponent implements OnInit {
 
   appointments: Appointment[] = null;
   appointment: Appointment = null;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private agendaService: AppointmentService) {}
 
   ngOnInit(): void {
-    this.appointments = APPOINTMENTS;
+    this.appointments = this.agendaService.getAppointments();
 
     let id = +this.route.snapshot.paramMap.get('id');
-    for (let i = 0; i < this.appointments.length; i++) {
-      if (this.appointments[i].idappointment == id) {
-        this.appointment = this.appointments[i];
-      }
-    }
+    this.appointment = this.agendaService.getAppointment(id);
+
   }
 
   goBack(): void {
-    this.router.navigate(['/agenda']);
+    this.router.navigate(['/appointment']);
     //window.history.back();
   }
 

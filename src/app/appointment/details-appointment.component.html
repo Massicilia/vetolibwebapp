@@ -1,6 +1,6 @@
-<div *ngIf="appointment" class="row">
+<div class="row">
   <div class="col s12 m8 offset-m2">
-    <h2 class="header center">{{ appointment.reason }}</h2>
+    <h2 class="header center">Détails du rendez-vous</h2>
     <div class="card horizontal hoverable">
       <div class="card-image">
         <!--<img [src]="appointment.dae">-->
@@ -10,27 +10,29 @@
           <table class="bordered striped">
             <tbody>
             <tr>
-              <td>Nom</td>
-              <td><strong>{{ appointment.reason }}</strong></td>
+              <td>Motif</td>
+              <td><strong>patte cassée</strong></td>
             </tr>
             <tr>
-              <td>Points de vie</td>
-              <td><strong>{{ appointment.reason }}</strong></td>
+              <td>Date</td>
+              <td><strong>08/08/2010</strong></td>
             </tr>
             <tr>
-              <td>Dégâts</td>
-              <td><strong>{{ appointment.reason }}</strong></td>
-            </tr>
-            <tr>
-              <td>Types</td>
+              <td>Propriétaire</td>
               <td>
-                <span *ngFor="let type of appointment.type" class="{{ type | pokemonTypeColor }}">{{ type }}</span>
+                <strong>
+                  <a href="agenda/1/client" class="collection-item">Lorelai Kim</a>
+                </strong>
               </td>
             </tr>
             <tr>
-              <td>Date de création</td>
-              <td><em>{{ appointment.date | date:"dd/MM/yyyy" }}</em></td>
+              <td>Animal</td>
+              <td>
+                <strong>
+                  <a href="agenda/1/animal" class="collection-item">Joe le chien</a>
+                </strong></td>
             </tr>
+
             </tbody>
           </table>
         </div>

@@ -1,37 +1,59 @@
-/*import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  title = 'vetolibwebapp';
-  name = 'Angular';
-}
-*/
 import { Component } from '@angular/core';
-import {OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {Appointment} from './appointment';
-import {APPOINTMENTS} from './mock-appointments';
+import {
+  ScheduleComponent, EventSettingsModel, View, TimelineMonthService,
+  ResizeService, EventRenderedArgs, DragAndDropService, CellTemplateArgs, getWeekNumber, TimeScaleModel,getWeekLastDate
+} from '@syncfusion/ej2-angular-schedule';
+import { headerRowData } from './data';
+import { extend, Internationalization } from '@syncfusion/ej2-base';
+
+// @ts-ignore
+// @ts-ignore
+/**
+ * Sample for Schedule header rows
+ */
 
 @Component({
   selector: 'agenda',
-  templateUrl: './agenda.component.html'
+  templateUrl: 'agenda.component.html',
+  providers: [TimelineMonthService, ResizeService, DragAndDropService]
 })
-export class ListAppointmentComponent implements  OnInit {
-  public appointments: Appointment[] = null;
-  public title: string = 'Agenda';
-
-  constructor(private router: Router) {  }
-
-  ngOnInit(): void {
-    this.appointments = APPOINTMENTS;
+//@ts-ignore
+export class AgendaComponent {
+  public scheduleObj: ScheduleComponent;
+  public selectedDate: Date = new Date(2018, 0, 1);
+  public eventSettings: EventSettingsModel = { dataSource: <Object[]>extend([], headerRowData, null, true) };
+  public currentView: View = 'TimelineMonth';
+  public instance: Internationalization = new Internationalization();
+  public timeScale: TimeScaleModel = {
+    enable: true,
+    slotCount: 4
+  };
+  getMonthDetails(value: CellTemplateArgs): string {
+    return this.instance.formatDate((value as CellTemplateArgs).date, { skeleton: 'yMMMM' });
   }
 
-  selectAppointment(appointment: Appointment){
-    let link = ['/agenda', appointment.idappointment];
-    this.router.navigate(link);
+  getWeekDetails(value: CellTemplateArgs): string {
+    return 'Week ' + getWeekNumber(getWeekLastDate(value.date, 0));
+  }
+  getMajorTime(date: Date): string {
+    return this.instance.formatDate(date, { skeleton: 'ms' }).replace(':00', '');
+  }
+  getMinorTime(date: Date): string {
+    return this.instance.formatDate(date, { skeleton: 'ms' }).replace(':00', '');
+  }
+  getDateHeaderText(value: Date) :string {
+    return this.instance.formatDate(value, { skeleton: 'Ed' });
+  };
+  onEventRendered(args: EventRenderedArgs): void {
+    const categoryColor: string = args.data.CategoryColor as string;
+    if (!args.element || !categoryColor) {
+      return;
+    }
+    if (this.currentView === 'Agenda') {
+      (args.element.firstChild as HTMLElement).style.borderLeftColor = categoryColor;
+    } else {
+      args.element.style.backgroundColor = categoryColor;
+    }
   }
 }
+
