@@ -1,11 +1,10 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { AgendaComponent }    from './agenda.component';
+import { AgendaComponent } from './agenda.component';
 
 
 const agendaRoutes: Routes = [
-  { path: 'calendrier', component: AgendaComponent }
+  { path: 'agenda', component: AgendaComponent }
 ];
 
 
@@ -18,4 +17,6 @@ const agendaRoutes: Routes = [
   ]
 })
 // @ts-ignore
-export class AgendaRoutingModule { }
+export class AgendaRoutingModule {
+
+}
