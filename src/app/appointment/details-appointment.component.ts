@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Appointment } from './appointment';
+import { Appointment } from '../model/appointment';
 import { APPOINTMENTS } from './mock-appointments';
 import { AppointmentService } from './appointment.service';
 

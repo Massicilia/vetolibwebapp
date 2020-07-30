@@ -5,5 +5,4 @@ export class Appointment {
   veterinary_nordinal: number;
   petowner_idpetownerappoint: number;
   pet_idpetappoint: number;
-  type: string
 }

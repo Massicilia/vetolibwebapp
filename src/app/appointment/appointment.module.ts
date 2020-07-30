@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentRoutingModule } from './appointment-routing.module';
 
-import { NewAppointmentComponent } from './new-appointment.component';
 import { DetailsAppointmentComponent } from './details-appointment.component';
 import { ClientComponent } from './client.component';
 import { PetComponent} from './pet.component';
@@ -15,7 +14,6 @@ import { PokemonTypeColorPipe } from './pokemon-type-color.pipe';
     AppointmentRoutingModule
   ],
   declarations: [
-    NewAppointmentComponent,
     DetailsAppointmentComponent,
     ClientComponent,
     PetComponent,

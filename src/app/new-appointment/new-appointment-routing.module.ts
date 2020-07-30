@@ -1,12 +1,12 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AgendaComponent } from './agenda.component';
+
+import { NewAppointmentComponent }    from './new-appointment.component';
 
 
 const agendaRoutes: Routes = [
-  { path: 'agenda', component: AgendaComponent }
+  { path: 'rendez-vous', component: NewAppointmentComponent }
 ];
-
 
 @NgModule({
   imports: [
@@ -17,4 +17,4 @@ const agendaRoutes: Routes = [
   ]
 })
 // @ts-ignore
-export class AgendaRoutingModule {}
+export class NewAppointmentRoutingModule { }
