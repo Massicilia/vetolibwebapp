@@ -96,12 +96,9 @@
   }
 }
 /* autocomplete */
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
+.cdk-overlay-container{position:fixed; z-index: 999999 !important;}
+.cdk-global-overlay-wrapper{display:flex;position:absolute;z-index: 999999 !important;}
+.cdk-overlay-pane{position:absolute;pointer-events:auto;box-sizing:border-box;z-index: 999999 !important;}
+.mat-option {
+  background: white;
 }

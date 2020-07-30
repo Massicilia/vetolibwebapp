@@ -20,15 +20,14 @@ export class NewAppointmentComponent implements OnInit {
   petownersNames: string[] = null;
   petownersEmails: string[] = null;
   pets: Pet[] = null;
-  test: string[] = ['aest1', 'test2', 'mest3', 'zest4'];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
 
   constructor(private route: ActivatedRoute, private router: Router, private appointmentService: NewAppointmentService) {}
 
   ngOnInit(): void {
-    //this.getPetowners();
-    this.petownersAutocomplete();
+    this.getPetowners();
+   // this.petownersAutocomplete();
 
     //this.getPets();
     //this.petsAutocomplete();
@@ -43,10 +42,11 @@ export class NewAppointmentComponent implements OnInit {
     this.appointmentService.getPetowners()
       .subscribe(petowners => this.petowners = petowners);
 
-    for(let index = 0; index < this.petowners.length; index++) {
+   /* for(let index = 0; index < this.petowners.length; index++) {
+      console.log("name  petowner:"+ this.petowners[index].name);
       this.petownersNames[index] = this.petowners[index].name;
       this.petownersEmails[index] = this.petowners[index].email;
-      }
+      }*/
   }
 
   getPets(): void {
@@ -59,7 +59,7 @@ export class NewAppointmentComponent implements OnInit {
   private _filterPetowners(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.test.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    return this.petownersNames.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
   private petownersAutocomplete(){
     this.filteredOptions = this.myControl.valueChanges.pipe(
