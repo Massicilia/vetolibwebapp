@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NewAppointmentRoutingModule } from './new-appointment-routing.module';
+import { FilterPipe } from './unique.pipe';
 
 import { NewAppointmentComponent } from './new-appointment.component';
 
@@ -22,6 +23,7 @@ import { NewAppointmentComponent } from './new-appointment.component';
   ],
   declarations: [
     NewAppointmentComponent,
+    FilterPipe
   ],
   providers: []
 })

@@ -73,13 +73,12 @@
     <div class="row">
       <div class="input-field col s6">
         <i class="material-icons prefix">perm_identity</i>
-        <mat-autocomplete #auto="matAutocomplete"  >
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option}}
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let petowner of filteredOptions | async" [value]="petowner">
+            {{petowner}}
           </mat-option>
         </mat-autocomplete>
         <input id="client" type="text" class="autocomplete" matInput [formControl]="myControl" [matAutocomplete]="auto">
-
         <label class="active" for="client">Client</label>
       </div>
     </div>
@@ -90,5 +89,30 @@
     </div>
   </form>
 </div>
+
+<table class="table table-striped">
+  <thead>
+  <tr class="table-info">
+    <th scope="col">Nom et prénom</th>
+    <!--
+    <th scope="col">Adresse</th>
+    <th scope="col">Email</th>
+    <th scope="col">Numéro de téléphone</th>
+    <th scope="col">Identifiant</th>
+    <th scope="col">#</th>-->
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let petowner of petownersNames">
+    <th scope="row">{{petowner}}</th>
+    <!-- <th scope="row">{{petowner.surname }} {{petowner.name}}</th>
+    <td>{{petowner.adress}}</td>
+    <td>{{petowner.email}}</td>
+    <td>{{petowner.phonenum}}</td>
+    <td>{{petowner.username}}</td>
+    <td>{{petowner.idpetowner}}</td> -->
+  </tr>
+  </tbody>
+</table>
 
 

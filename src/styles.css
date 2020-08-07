@@ -101,4 +101,5 @@
 .cdk-overlay-pane{position:absolute;pointer-events:auto;box-sizing:border-box;z-index: 999999 !important;}
 .mat-option {
   background: white;
+  z-index: 999999 !important;
 }

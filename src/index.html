@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
   <title>Vetolibwebapp</title>
@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-<!-- script for polyfills to fix asap
-  <script src="./node_modules/core-js/client/shim.min.js"></script>
-  <script src="./node_modules/zone.js/dist/zone.js"></script>
-  <script src="./node_modules/systemjs/dist/system.src.js"></script>
--->
-  <script src="systemjs.config.js"></script>
+<!-- script for polyfills to fix asap -->
+  <script src="../node_modules/core-js/client/shim.min.js"></script>
+  <script src="../node_modules/zone.js/dist/zone.js"></script>
+  <script src="../node_modules/systemjs/dist/system.src.js"></script>
+
+  <script src="config.js"></script>
   <script>System.import('./out-tsc/app/main.js').catch(function(err){ console.error(err); });</script>
+
   <!-- JavaScript for: jQuery, angular, materialize, and angular-materialize. All of which are needed. -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
@@ -24,10 +25,10 @@
 </head>
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="assets/js/jquery.payform.min.js" charset="utf-8"></script>
-  <script src="assets/js/script.js"></script>
+  <script src="/assets/js/jquery.payform.min.js" charset="utf-8"></script>
+  <!-- <script src="assets/js/script.js"></script> -->
   <app-vetolib>Loading AppComponent content here ...</app-vetolib>
- <!-- <app-root></app-root> -->
+  <!-- <app-root></app-root> -->
 </body>
 </html>
 
