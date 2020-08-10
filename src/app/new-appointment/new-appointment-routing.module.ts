@@ -2,10 +2,10 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NewAppointmentComponent }    from './new-appointment.component';
-
+import { AuthGuard } from '../auth-guard.service';
 
 const agendaRoutes: Routes = [
-  { path: 'rendez-vous', component: NewAppointmentComponent }
+  { path: 'rendez-vous', component: NewAppointmentComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

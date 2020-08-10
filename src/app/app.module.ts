@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ScheduleAllModule, RecurrenceEditorAllModule } from '@syncfusion/ej2-angular-schedule';
@@ -20,6 +21,7 @@ import { PageNotFoundComponent } from './page-not-found';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     CalendarModule,
     ScheduleAllModule,

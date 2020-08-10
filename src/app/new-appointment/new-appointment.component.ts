@@ -4,10 +4,16 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import * as $ from 'jquery';
 
 import { Petowner } from '../model/petowner';
 import { Pet } from '../model/pet';
 import { NewAppointmentService } from './new-appointment.service';
+import {MatOption} from '@angular/material/core';
+
+interface jQuery {
+  datepicker():void;
+}
 
 @Component({
   selector: 'appointment',
@@ -17,141 +23,130 @@ import { NewAppointmentService } from './new-appointment.service';
 // @ts-ignore
 export class NewAppointmentComponent implements OnInit {
 
-  selectedOption:string = 'TEST';
   petowners: Petowner[] = null;
+  pets: Pet[] = null;
   petownersNames: string[] = null;
   petownersEmails: string[] = null;
-  options: string[] = ['test','2','3','4','5','6',];
-  pets: Pet[] = null;
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
+  petsNames: string[] = null;
+  idpetowner: number = null;
+  arePetsdisplayed: number = 0;
+  startDate: Date = new Date();
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private appointmentService: NewAppointmentService) {  }
+  control = new FormControl();
+  filteredNames: Observable<string[]>;
+  filteredEmails: Observable<string[]>;
+
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private appointmentService: NewAppointmentService) {};
+
   ngOnInit(): void {
-    this.getPosts()
+    this.getPetowners()
       .then(result => {
-        console.log('result : '+ result);
-        console.log('petowners : '+ this.petowners);
-        // code to execute after the response arrived comes here
-        this.petownersAutocomplete();
+        this.petownersEmailsAutocomplete();
+        this.petownersNamesAutocomplete();
       });
-
-    // this.petownersNames = this.getPetownersDetails();
-
-
-    //this.getPets();
-    //this.petsAutocomplete();
   }
+
   goBack(): void {
     this.router.navigate(['/agenda']);
     //window.history.back();
   }
-  getPosts(): Promise<Object> {
+
+  getPetowners(): Promise<Object> {
     const promise = new Promise((resolve, reject) => {
       const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/petowner/all';
       this.http
         .get<Petowner[]>(apiURL)
         .toPromise()
         .then((res: Petowner[]) => {
-            // Success
-            console.log('after then ');
             this.petowners = res.map((res: Petowner) => {
               return res;
             });
+            this.petownersNames = this.petownersNames || [];
+            this.petownersEmails = this.petownersEmails || [];
+            for (let index = 0; index < this.petowners.length; index++) {
+              this.petownersNames.push(this.petowners[index].name + " " + this.petowners[index].surname);
+              this.petownersEmails.push(this.petowners[index].email);
+            }
             resolve();
           },
           err => {
-            // Error
             reject(err);
           }
         );
     });
     return promise;
   }
-/*
-  getPetowners(): void {
-    const data = this.http.get<Petowner[]>('https://vetolibapi.herokuapp.com/api/v1/petowner/all').subscribe(data => {
-      this.petowners = data;
-      console.log(data);
+
+  getPets(): Promise<Object> {
+    const promise = new Promise((resolve, reject) => {
+      console.log('idpetowner : ' + this.idpetowner);
+      const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/pet/bypetowner?petowner_idpetowner=' + this.idpetowner;
+      console.log('apiURL : ' + apiURL);
+      this.http
+        .get<Pet[]>(apiURL)
+        .toPromise()
+        .then((res: Pet[]) => {
+            this.pets = res.map((res: Pet) => {
+              return res;
+            });
+            this.petsNames = this.petsNames || [];
+            for (let index = 0; index < this.pets.length; index++) {
+              this.petsNames.push(this.pets[index].name);
+              console.log('pet name : ' + this.petsNames[index]);
+            }
+            resolve();
+          },
+          err => {
+            reject(err);
+          }
+        );
     });
-    /*this.appointmentService.getPetowners()
-      .subscribe(petowners => this.petowners = petowners);
-    console.log('Petowners : ' + this.petowners); */ /*
+    return promise;
   }
 
-  getPetownersDetails(): any {
-    var table: Petowner[] = null;
-    const petownerPromise = new Promise((resolve, reject) => {
-      console.log('PROMISE HTTP GET PETOWNER');
-      resolve(this.http.get<Petowner[]>('https://vetolibapi.herokuapp.com/api/v1/petowner/all'))
-    });
-
-    console.log('Before calling then on Promise');
-
-    petownerPromise.then( function(result) {
-      table = result.json.petowners
-      console.log('Greeting from promise:' + result);
-      console.log(typeof(result));
-    }, function(error) {
-      // Do something with the error if it fails
-    });
-    /*this.http.get<Petowner[]>('https://vetolibapi.herokuapp.com/api/v1/petowner/all').subscribe(data => {
-      this.petowners = data;
-      console.log(data);
-    });*/
-
-    //var taille = Object.keys(this.petowners).length;
-   /* for (let index = 0; index < this.petowners.length; index++) {
-      console.log('getPetownersDetails for :' + index);
-      this.petownersNames[index] = this.petowners[index].name;
-      this.petownersEmails[index] = this.petowners[index].email;
-      console.log(this.petowners[index].email);
-    }
-    return this.petownersNames;
-  }*/
-  /**/
-  // autocomplete filter petowners
-  private _filterPetowners(value: string): string[] {
+  // autocomplete filter petowners names
+  private _filterPetownersNames(value: string): string[] {
     const filterValue = value.toLowerCase();
-    this.petownersNames = this.petownersNames || [];
-    console.log('taille de petowners '+this.petowners.length );
-    console.log('petowner '+this.petowners[0].name );
-    for (let index = 0; index < this.petowners.length; index++) {
-      console.log('petowner '+this.petowners[index].name );
-      this.petownersNames.push(this.petowners[index].name);
-      console.log('petowner exemple '+this.petownersNames[index] );
-    }
-
     return this.petownersNames.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
-  private petownersAutocomplete(){
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterPetowners(value))
-    );
-  }
 
-
-
-
-
-/*
-
-  // autocomplete pets
-  private _filterPets(value: string): string[] {
+  // autocomplete filter petowners emails
+  private _filterPetownersEmails(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.petownersEmails.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
-  private petsAutocomplete(){
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+
+  // autocomplete petowners emails
+  private petownersEmailsAutocomplete() {
+    this.filteredEmails = this.control.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterPets(value))
+      map(value => this._filterPetownersEmails(value))
     );
   }
-  getPets(): void {
-    let idpetowner = +this.route.snapshot.paramMap.get('idpetowner');
-    this.appointmentService.getPets(idpetowner)
-      .subscribe(pets => this.pets = pets)
-  } */
+
+  // autocomplete petowners names
+  private petownersNamesAutocomplete() {
+    this.filteredNames = this.control.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPetownersNames(value))
+    );
+  }
+
+  //recove selected email
+  OnEmailSelected(option: MatOption) {
+    this.petsNames = null;
+    console.log('email selected : ' + option.value);
+    for (let index = 0; index < this.petowners.length; index++) {
+      if (option.value == this.petowners[index].email) {
+        this.idpetowner = this.petowners[index].idpetowner;
+      }
+    }
+    console.log('idpetowner : ' + this.idpetowner);
+    this.getPets()
+      .then(result => {
+        this.arePetsdisplayed = 1;
+        console.log('get pets list');
+      })
+  }
 }

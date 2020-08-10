@@ -1,70 +1,20 @@
-<!--<div class='container'>
-  <h1>Rendez-vous</h1>
-  <div class="row">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s6">
-          <i class="material-icons prefix">date_range</i>
-          <input id="date" type="date" class="datepicker" format="dd/mm/yyyy">
-          <label class="active" for="date">Date</label>
-        </div>
-        <div class="input-field col s6">
-          <i class="material-icons prefix">message</i>
-          <textarea id="reason" class="materialize-textarea"></textarea>
-          <label class="active" for="reason">Motif</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s6">
-          <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">perm_identity</i>
-                <input type="text" id="client" class="autocomplete">
-                <label class="active" for="client">Client</label>
-            </div>
-          </div>
-        </div>
-        <div class="col s6">
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="material-icons prefix">email</i>
-              <input type="email" id="clientemail" class="autocomplete">
-              <label class="active" for="clientemail">Email du client</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          <div class="row">
-            <div class="input-field col s6">
-              <i class="material-icons prefix">pets</i>
-              <input type="text" id="animal" class="autocomplete">
-              <label class="active" for="animal">Animal</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <button class="btn waves-effect waves-light" type="submit" name="action">Prendre rendez-vous
-          <i class="material-icons right">send</i>
-        </button>
-      </div>
-    </form>
-  </div>
-  <div class="row">
-  </div>
-</div>-->
 <div class='container'>
   <h1>Rendez-vous</h1>
   <form class="col s12">
     <div class="row">
       <div class="input-field col s6">
         <i class="material-icons prefix">date_range</i>
-        <input id="date" type="date" class="datepicker" format="dd/mm/yyyy">
+        <input id="date" type="date" class="datepicker"/>
         <label class="active" for="date">Date</label>
       </div>
       <div class="input-field col s6">
+        <i class="material-icons prefix">timelapse</i>
+        <input id="time" type="time" class="timepicker"/>
+        <label class="active" for="time">Horaire</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
         <i class="material-icons prefix">message</i>
         <textarea id="reason" class="materialize-textarea"></textarea>
         <label class="active" for="reason">Motif</label>
@@ -74,12 +24,32 @@
       <div class="input-field col s6">
         <i class="material-icons prefix">perm_identity</i>
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let petowner of filteredOptions | async" [value]="petowner">
+          <mat-option *ngFor="let petowner of filteredNames | async" [value]="petowner">
             {{petowner}}
           </mat-option>
         </mat-autocomplete>
-        <input id="client" type="text" class="autocomplete" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <input id="client" type="text" class="autocomplete" matInput [formControl]="control" [matAutocomplete]="auto">
         <label class="active" for="client">Client</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">email</i>
+        <mat-autocomplete #autoEmails="matAutocomplete" (optionSelected)="OnEmailSelected($event.option)">
+          <mat-option *ngFor="let petowneremail of filteredEmails | async" [value]="petowneremail">
+            {{petowneremail}}
+          </mat-option>
+        </mat-autocomplete>
+        <input id="clientemail" type="email" class="autocomplete" matInput [formControl]="control" [matAutocomplete]="autoEmails">
+        <label class="active" for="clientemail">Email</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6" id="options" >
+        <ul>
+          <li [ngStyle]="{'visibility': arePetsdisplayed == 1 ? 'visible' : 'hidden'}">
+            <h6>Animal</h6>
+          </li>
+          <li *ngFor="let pet of petsNames" id="{{pet}}"><p><label><input type="checkbox"><span>{{pet}}</span></label></p></li>
+        </ul>
       </div>
     </div>
     <div class="row">
@@ -89,30 +59,10 @@
     </div>
   </form>
 </div>
-
-<table class="table table-striped">
-  <thead>
-  <tr class="table-info">
-    <th scope="col">Nom et prénom</th>
-    <!--
-    <th scope="col">Adresse</th>
-    <th scope="col">Email</th>
-    <th scope="col">Numéro de téléphone</th>
-    <th scope="col">Identifiant</th>
-    <th scope="col">#</th>-->
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let petowner of petownersNames">
-    <th scope="row">{{petowner}}</th>
-    <!-- <th scope="row">{{petowner.surname }} {{petowner.name}}</th>
-    <td>{{petowner.adress}}</td>
-    <td>{{petowner.email}}</td>
-    <td>{{petowner.phonenum}}</td>
-    <td>{{petowner.username}}</td>
-    <td>{{petowner.idpetowner}}</td> -->
-  </tr>
-  </tbody>
-</table>
-
-
+<script>
+  $(document).ready(function(){
+    $('#date').datepicker({
+      disableWeekends : true,
+    });
+  });
+</script>
