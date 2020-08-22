@@ -1,10 +1,11 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AgendaComponent } from './agenda.component';
+import { AgendaResolver} from './agenda.resolver';
 
 
 const agendaRoutes: Routes = [
-  { path: 'agenda', component: AgendaComponent }
+  { path: 'agenda', component: AgendaComponent, resolve: { appointments: AgendaResolver } }
 ];
 
 

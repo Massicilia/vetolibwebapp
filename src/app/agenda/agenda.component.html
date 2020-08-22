@@ -1,26 +1,10 @@
 <div class='container'>
-  <h3 class="center">Agenda</h3>
   <div class='row'>
-    <ejs-calendar class="col s6" #schedule height='550px' locale="fr" [value]='user.selectedDate' [firstDayOfWeek]='startWeek' (renderDayCell)='disabledDate($event)' (change)='onChange($event)'></ejs-calendar>
-    <ul class="collapsible col s6 right">
-      <li>
-        <div class="collapsible-header">
-          <i class="material-icons">view_agenda</i>
-          15h45min
-          <span class="badge">Chien</span>
-        </div>
-        <div class="collapsible-body"><p>Lorelai Kim patte cassée </p></div>
-      </li>
-      <li>
-        <div class="collapsible-header">
-          <i class="material-icons">view_agenda</i>
-          8h00min
-          <span class="badge">Serpent</span>
-        </div>
-        <div class="collapsible-body"><p>Lane Makaia suivi</p></div>
-      </li>
-    </ul>
+    <h3 class="center">Planning</h3>
+    <ejs-calendar class="col s6 left" #schedule height='550px' locale="fr" [value]='user.selectedDate' [firstDayOfWeek]='startWeek' (renderDayCell)='disabledDate($event)' (change)='onChange($event)'></ejs-calendar>
+    <div *ngIf="isAppoint" class="collection">
+      <h6 class="center">Liste des rendez-vous</h6>
+      <a *ngFor="let appoint of appointOfDay" href="rendez-vous/{{appoint.idappointment}}" class="collection-item"><span class="badge">{{appoint.time}}</span>{{appoint.reason}}</a>
+    </div>
   </div>
 </div>
-
-<!-- [eventSettings]="eventSettings"-->

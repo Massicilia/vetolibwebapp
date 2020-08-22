@@ -4,12 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { DetailsAppointmentComponent }    from './details-appointment.component';
 import { ClientComponent }    from './client.component';
 import { PetComponent }    from './pet.component';
+import {AppointmentService} from './appointment.service';
 
 
 const agendaRoutes: Routes = [
-  { path: 'appointment/:id', component: DetailsAppointmentComponent },
-  { path: 'appointment/:id/client', component: ClientComponent },
-  { path: 'appointment/:id/animal', component: PetComponent }
+  { path: 'rendez-vous/:id', component: DetailsAppointmentComponent, resolve: {data: AppointmentService}},
+  { path: 'rendez-vous/:id/client', component: ClientComponent },
+  { path: 'rendez-vous/:id/animal', component: PetComponent }
 ];
 
 @NgModule({

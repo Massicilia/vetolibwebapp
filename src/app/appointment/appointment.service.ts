@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Appointment } from '../model/appointment';
-import { APPOINTMENTS } from './mock-appointments';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable()
 export class AppointmentService {
 
-  // Retourne tous les RENDEZ6VOUS
-  getAppointments(): Appointment[] {
-    return APPOINTMENTS;
-  }
-
+  constructor(private http: HttpClient){};
   // Retourne le rendez-vous avec l'identifiant passé en paramètre
-  getAppointment(id: number): Appointment {
-    let appointments = this.getAppointments();
-
-    for(let index = 0; index < appointments.length; index++) {
-      if(id === appointments[index].idappointment) {
-        return appointments[index];
-      }
-    }
+  getAppointment(id: number) {
+    const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/appointment/details?idappointment=' + id;
+    return this.http.get<Appointment>(apiURL);
   }
+
 }

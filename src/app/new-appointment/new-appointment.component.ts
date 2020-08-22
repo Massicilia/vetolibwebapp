@@ -4,7 +4,6 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import * as $ from 'jquery';
 
 import { Petowner } from '../model/petowner';
 import { Pet } from '../model/pet';

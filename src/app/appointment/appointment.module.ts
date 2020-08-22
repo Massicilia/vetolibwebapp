@@ -7,6 +7,7 @@ import { ClientComponent } from './client.component';
 import { PetComponent} from './pet.component';
 import { BorderCardDirective } from './border-card.directive';
 import { PokemonTypeColorPipe } from './pokemon-type-color.pipe';
+import {AppointmentService} from './appointment.service';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { PokemonTypeColorPipe } from './pokemon-type-color.pipe';
     BorderCardDirective,
     PokemonTypeColorPipe,
   ],
-  providers: []
+  providers: [AppointmentService]
 })
 export class AppointmentModule { }

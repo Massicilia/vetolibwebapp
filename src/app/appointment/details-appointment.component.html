@@ -11,17 +11,17 @@
             <tbody>
             <tr>
               <td>Motif</td>
-              <td><strong>patte cassée</strong></td>
+              <td><strong>{{appointment.reason}}</strong></td>
             </tr>
             <tr>
               <td>Date</td>
-              <td><strong>08/08/2010</strong></td>
+              <td><strong>{{appointment.date}}</strong></td>
             </tr>
             <tr>
               <td>Propriétaire</td>
               <td>
                 <strong>
-                  <a href="agenda/1/client" class="collection-item">Lorelai Kim</a>
+                  <a href="agenda/1/client" class="collection-item">{{appointment.petowner_idpetownerappoint}}</a>
                 </strong>
               </td>
             </tr>
@@ -29,7 +29,7 @@
               <td>Animal</td>
               <td>
                 <strong>
-                  <a href="agenda/1/animal" class="collection-item">Joe le chien</a>
+                  <a href="agenda/1/animal" class="collection-item">{{appointment.pet_idpetappoint}}</a>
                 </strong></td>
             </tr>
 

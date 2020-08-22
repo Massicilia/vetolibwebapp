@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Appointment } from '../model/appointment';
-import { APPOINTMENTS } from './mock-appointments';
 import { AppointmentService } from './appointment.service';
 
 @Component({
@@ -10,23 +9,25 @@ import { AppointmentService } from './appointment.service';
   providers:[AppointmentService]
 })
 export class DetailsAppointmentComponent implements OnInit {
-
-  appointments: Appointment[] = null;
+  idappointment: number;
   appointment: Appointment = null;
 
-  constructor(private route: ActivatedRoute, private router: Router, private agendaService: AppointmentService) {}
-
+  constructor(private route: ActivatedRoute, private router: Router, private agendaService: AppointmentService) {
+    this.idappointment = this.route.snapshot.params.id;
+    console.log('idappointment : ' +this.idappointment);
+  }
   ngOnInit(): void {
-    this.appointments = this.agendaService.getAppointments();
-
-    let id = +this.route.snapshot.paramMap.get('id');
-    this.appointment = this.agendaService.getAppointment(id);
-
+    this.getAppointmentDetails();
+  }
+  getAppointmentDetails(): void{
+    this.agendaService.getAppointment(this.idappointment)
+      .subscribe((data: Appointment) =>
+        this.appointment = data
+    )
   }
 
   goBack(): void {
-    this.router.navigate(['/appointment']);
-    //window.history.back();
+    this.router.navigate(['/agenda']);
   }
 
 }

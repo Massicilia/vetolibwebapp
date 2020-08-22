@@ -1,25 +1,54 @@
 import { Injectable } from '@angular/core';
-// RxJS 6
 import { Observable, of } from 'rxjs';
-import { tap, delay } from 'rxjs/operators';
+import {tap, delay, catchError} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Connexion} from './login.component';
 
 @Injectable()
 export class AuthentificationService {
-  isLoggedIn: boolean = false; // L'utilisateur est-il connecté ?
-  redirectUrl: string; // où rediriger l'utilisateur après l'authentification ?
-  // Une méthode de connexion
-  login(name: string, password: string): Observable<boolean> {
-    // Faites votre appel à un service d'authentification...
-    let isLoggedIn = (name === 'email' && password === 'password');
+  constructor(private http: HttpClient) {
+  }
+  isLoggedIn: boolean = false;
+  redirectUrl: string = 'agenda';
 
-    return of(true).pipe(
-      delay(1000),
-      tap(val => this.isLoggedIn = isLoggedIn)
-    );
+  login(email: string, password: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+
+    return this.http.post<Connexion>('https://vetolibapi.herokuapp.com/api/v1/veterinary/login', {email, password}, httpOptions)
+      .pipe(
+        delay(1000),
+        tap(val => this.isLoggedIn = true),
+        catchError(this.handleError('connexion'))
+      );
   }
 
-  // Une méthode de déconnexion
+  loginn(connexion: Object): Observable<any> {
+    console.log('authentification service ');
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.post('https://vetolibapi.herokuapp.com/api/v1/veterinary/login', connexion, httpOptions ).pipe(
+      delay(3000),
+      tap(val => this.isLoggedIn = true),
+      catchError(this.handleError)
+    )
+  }
+
   logout(): void {
     this.isLoggedIn = false;
+  }
+
+  private log(log: string){
+    console.info(log);
+  }
+
+  private handleError<T>(operation='operation', result?: T){
+    return (error: any): Observable<T> => {
+      console.log(error);
+      console.log('${operation} failed: ${error.message }');
+      return of(result as T);
+    };
   }
 }

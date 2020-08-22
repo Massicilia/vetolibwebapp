@@ -15,7 +15,7 @@ export class PetComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/appointment/:id']);
+    this.router.navigate(['/rendez-vous/id']);
     //window.history.back();
   }
 

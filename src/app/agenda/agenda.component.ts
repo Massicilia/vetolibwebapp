@@ -7,6 +7,11 @@ import {
   AgendaService, ScheduleComponent, View,ResizeService, DragAndDropService
 } from '@syncfusion/ej2-angular-schedule';
 import { L10n, loadCldr } from '@syncfusion/ej2-base';
+import {DatePipe} from '@angular/common';
+import {Appointment} from '../model/appointment';
+import {AgendaResolver} from './agenda.resolver';
+import {ActivatedRoute} from '@angular/router';
+import {AgendaDisplayService} from './agenda.service';
 
 export interface User {
   selectedDate: Date;
@@ -14,6 +19,12 @@ export interface User {
 export interface JSONUser {
   selectedDate: string;
 }
+export interface Planning {
+  idappointment: number;
+  reason: string;
+  time: string;
+}
+
 declare let require: Function;
 loadCldr(
   require('cldr-data/supplemental/numberingSystems.json'),
@@ -134,29 +145,108 @@ L10n.load({
 @Component({
   selector: 'agenda',
   templateUrl: './agenda.component.html',
-  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService,ResizeService, DragAndDropService],
+  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService,ResizeService, DragAndDropService, DatePipe],
   encapsulation: ViewEncapsulation.None
 })
 // @ts-ignore
 export class AgendaComponent {
   public user: JSONUser;
-  public JSONData: JSONUser = JSON.parse('{ "selectedDate":"2020-09-31T00:00:00+00:00"}');
+  //public JSONData: JSONUser = JSON.parse('{ "selectedDate":"2020-09-31T00:00:00+00:00"}');
+  public JSONData: JSONUser = new class implements JSONUser {
+    selectedDate: string;
+  };
   public model_result: string = JSON.stringify(this.JSONData);
 
-  public dateValue: Date = new Date();
   public startWeek: number = 1;
-  constructor() {
-  }
-  public ngOnInit() {
+  public today: Date = new Date();
+  public isAppoint: boolean = false;
+  public appointOfDay: Planning[] = null;
+  public appointments: Appointment[] = null;
+  constructor(private activatedRoute: ActivatedRoute, private agendaResolver: AgendaResolver, private datePipe : DatePipe) {}
+
+  ngOnInit() {
+    this.JSONData.selectedDate = this.today.toString();
     this.user = this.JSONData;
+    this.activatedRoute.data.subscribe((data: { appointments: Appointment[] }) => {
+      this.appointments = data.appointments;
+    });
+    this.getAppointmentsOfDay(this.today);
+    for(let index = 0; index< this.appointments.length; index++){
+      console.log('appointment : '+ this.appointments[index].reason);
+    }
   }
-  onChange(args) {
-    this.JSONData.selectedDate = args.value;
-    this.model_result = JSON.stringify(this.JSONData);
+  /*public ngOnInit() {
+    this.JSONData.selectedDate = this.today.toString();
+    this.user = this.JSONData;
+    this.agendaResolver.subscribe(data => {
+      this.appointments = this.appointments || [];
+      for(let index = 0; index< data.length; index++){
+        this.appointments.push(data[index]);
+      }
+      this.getAppointmentsOfDay(this.today);
+    })
+  }*/
+
+  /**
+   * get the appointments of the day with time range
+   * @param date
+   */
+  getAppointmentsOfDay(date: Date){
+    console.log('test');
+    var dateFormat = this.getDateFormat(date);
+    this.appointOfDay = this.appointOfDay || [];
+    //get appointments of the day
+    for(let index = 0; index< this.appointments.length; index++) {
+      var appointdate = this.getDateFormat(this.appointments[index].date);
+      if(dateFormat == appointdate){
+        this.appointOfDay.push({
+          idappointment : this.appointments[index].idappointment,
+          reason : this.appointments[index].reason,
+          time : this.datePipe.transform(this.appointments[index].date, 'HH:mm')
+        })
+        }
+      }
+    for(let ind = 0; ind<this.appointOfDay.length;ind++){
+      console.log('time : ' + this.appointOfDay[ind].time);
+    }
+    //time range
+    for(let ind = 0; ind<this.appointOfDay.length;ind++){
+      if(this.appointOfDay[ind].time>this.appointOfDay[ind++].time){
+        let buffer = this.appointOfDay[ind];
+        this.appointOfDay[ind]=this.appointOfDay[ind++];
+        this.appointOfDay[ind++]=buffer;
+      }
+      this.isAppoint = true;
+    }
   }
 
-  // enlever les we
+  /**
+   * get the good format of date dd-MM-yyyy
+   * @param date
+   */
+  getDateFormat(date : Date){
+    var dateString = new Date(date).toString();
+    return this.datePipe.transform(dateString, 'dd-MM-yyyy');
+  }
+
+  /**
+   * event changing the day
+   * @param args
+   */
+  onChange(args) {
+    this.appointOfDay = null;
+    this.isAppoint = false;
+    this.JSONData.selectedDate = args.value;
+    this.model_result = JSON.stringify(this.JSONData);
+    this.getAppointmentsOfDay(args.value);
+  }
+
+  /**
+   * enlever les we
+   * @param args
+   */
   disabledDate(args): void {
+    console.log('disableddate');
     if (args.date.getDay() === 0 || args.date.getDay() === 6) {
       args.isDisabled = true;
     }
