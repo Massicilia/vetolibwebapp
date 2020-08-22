@@ -11,7 +11,6 @@ import {DatePipe} from '@angular/common';
 import {Appointment} from '../model/appointment';
 import {AgendaResolver} from './agenda.resolver';
 import {ActivatedRoute} from '@angular/router';
-import {AgendaDisplayService} from './agenda.service';
 
 export interface User {
   selectedDate: Date;
@@ -151,7 +150,6 @@ L10n.load({
 // @ts-ignore
 export class AgendaComponent {
   public user: JSONUser;
-  //public JSONData: JSONUser = JSON.parse('{ "selectedDate":"2020-09-31T00:00:00+00:00"}');
   public JSONData: JSONUser = new class implements JSONUser {
     selectedDate: string;
   };
@@ -160,6 +158,7 @@ export class AgendaComponent {
   public startWeek: number = 1;
   public today: Date = new Date();
   public isAppoint: boolean = false;
+  public isWeekend: boolean = false;
   public appointOfDay: Planning[] = null;
   public appointments: Appointment[] = null;
   constructor(private activatedRoute: ActivatedRoute, private agendaResolver: AgendaResolver, private datePipe : DatePipe) {}
@@ -170,29 +169,17 @@ export class AgendaComponent {
     this.activatedRoute.data.subscribe((data: { appointments: Appointment[] }) => {
       this.appointments = data.appointments;
     });
-    this.getAppointmentsOfDay(this.today);
-    for(let index = 0; index< this.appointments.length; index++){
-      console.log('appointment : '+ this.appointments[index].reason);
+    if(this.today.getDay() === 0 || this.today.getDay() === 6 ){
+      this.isWeekend = true;
+    }else{
+      this.getAppointmentsOfDay(this.today);
     }
   }
-  /*public ngOnInit() {
-    this.JSONData.selectedDate = this.today.toString();
-    this.user = this.JSONData;
-    this.agendaResolver.subscribe(data => {
-      this.appointments = this.appointments || [];
-      for(let index = 0; index< data.length; index++){
-        this.appointments.push(data[index]);
-      }
-      this.getAppointmentsOfDay(this.today);
-    })
-  }*/
-
   /**
    * get the appointments of the day with time range
    * @param date
    */
   getAppointmentsOfDay(date: Date){
-    console.log('test');
     var dateFormat = this.getDateFormat(date);
     this.appointOfDay = this.appointOfDay || [];
     //get appointments of the day
@@ -206,9 +193,6 @@ export class AgendaComponent {
         })
         }
       }
-    for(let ind = 0; ind<this.appointOfDay.length;ind++){
-      console.log('time : ' + this.appointOfDay[ind].time);
-    }
     //time range
     for(let ind = 0; ind<this.appointOfDay.length;ind++){
       if(this.appointOfDay[ind].time>this.appointOfDay[ind++].time){
@@ -234,11 +218,14 @@ export class AgendaComponent {
    * @param args
    */
   onChange(args) {
-    this.appointOfDay = null;
-    this.isAppoint = false;
-    this.JSONData.selectedDate = args.value;
-    this.model_result = JSON.stringify(this.JSONData);
-    this.getAppointmentsOfDay(args.value);
+    if(args.value!=null){
+      this.appointOfDay = null;
+      this.isAppoint = false;
+      this.isWeekend = false;
+      this.JSONData.selectedDate = args.value;
+      this.model_result = JSON.stringify(this.JSONData);
+      this.getAppointmentsOfDay(args.value);
+    }
   }
 
   /**
@@ -246,7 +233,6 @@ export class AgendaComponent {
    * @param args
    */
   disabledDate(args): void {
-    console.log('disableddate');
     if (args.date.getDay() === 0 || args.date.getDay() === 6) {
       args.isDisabled = true;
     }

@@ -2,9 +2,16 @@
   <div class='row'>
     <h3 class="center">Planning</h3>
     <ejs-calendar class="col s6 left" #schedule height='550px' locale="fr" [value]='user.selectedDate' [firstDayOfWeek]='startWeek' (renderDayCell)='disabledDate($event)' (change)='onChange($event)'></ejs-calendar>
+    <div *ngIf="isWeekend" class="row">
+      <div class="col s12 m5">
+        <div class="card-panel teal">
+        <span class="white-text"> Jour de weekend</span>
+        </div>
+      </div>
+    </div>
     <div *ngIf="isAppoint" class="collection">
       <h6 class="center">Liste des rendez-vous</h6>
-      <a *ngFor="let appoint of appointOfDay" href="rendez-vous/{{appoint.idappointment}}" class="collection-item"><span class="badge">{{appoint.time}}</span>{{appoint.reason}}</a>
+      <a *ngFor="let appoint of appointOfDay" href="rendez-vous/{{appoint.idappointment}}" class="collection-item"><span class="badge">{{appoint.time}}</span> Motif : {{appoint.reason}}</a>
     </div>
   </div>
 </div>
