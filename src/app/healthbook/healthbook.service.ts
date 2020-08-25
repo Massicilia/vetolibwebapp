@@ -3,8 +3,9 @@ import { Appointment } from '../model/appointment';
 import { HttpClient } from '@angular/common/http';
 import {Petowner} from '../model/petowner';
 
+
 @Injectable()
-export class AppointmentService {
+export class HealthbookService {
 
   constructor(private http: HttpClient){};
   // Retourne le rendez-vous avec l'identifiant passé en paramètre

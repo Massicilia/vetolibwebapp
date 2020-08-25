@@ -2,45 +2,28 @@
   <div class="col s12 m8 offset-m2">
     <h2 class="header center">Détails du rendez-vous</h2>
     <div class="card horizontal hoverable">
-      <div class="card-image">
-        <!--<img [src]="appointment.dae">-->
-      </div>
       <div class="card-stacked">
         <div class="card-content">
           <table class="bordered striped">
             <tbody>
-            <tr>
-              <td>Motif</td>
-              <td><strong>{{appointment.reason}}</strong></td>
-            </tr>
-            <tr>
-              <td>Date</td>
-              <td><strong>{{appointment.date}}</strong></td>
-            </tr>
-            <tr>
-              <td>Propriétaire</td>
-              <td>
-                <strong>
-                  <a href="agenda/1/client" class="collection-item">{{appointment.petowner_idpetownerappoint}}</a>
-                </strong>
-              </td>
-            </tr>
-            <tr>
-              <td>Animal</td>
-              <td>
-                <strong>
-                  <a href="agenda/1/animal" class="collection-item">{{appointment.pet_idpetappoint}}</a>
-                </strong></td>
-            </tr>
-
+              <tr>
+                <td>Motif</td>
+                <td><strong>{{appointment.reason}}</strong></td>
+              </tr>
+              <tr>
+                <td>Date</td>
+                <td><strong>{{date}}</strong></td>
+              </tr>
             </tbody>
           </table>
         </div>
         <div class="card-action">
-          <a (click)="goBack()">Retour</a>
+          <a (click)="goBack()">Retour vers l'agenda</a>
+          <a style="float: right; margin-right: 0" (click)="goBack()">Voir le carnet de santé</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+<petownerdetails [idpetowner]="idpetowner" ></petownerdetails>
 <h4 *ngIf='!appointment' class="center">Aucun rendez-vous à afficher !</h4>

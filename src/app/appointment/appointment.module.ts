@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentRoutingModule } from './appointment-routing.module';
-
 import { DetailsAppointmentComponent } from './details-appointment.component';
-import { ClientComponent } from './client.component';
-import { PetComponent} from './pet.component';
-import { BorderCardDirective } from './border-card.directive';
-import { PokemonTypeColorPipe } from './pokemon-type-color.pipe';
-import {AppointmentService} from './appointment.service';
+import { PetownerComponent } from './petowner.component';
+import { AppointmentService } from './appointment.service';
 
 @NgModule({
   imports: [
@@ -16,11 +12,7 @@ import {AppointmentService} from './appointment.service';
   ],
   declarations: [
     DetailsAppointmentComponent,
-    ClientComponent,
-    PetComponent,
-
-    BorderCardDirective,
-    PokemonTypeColorPipe,
+    PetownerComponent
   ],
   providers: [AppointmentService]
 })

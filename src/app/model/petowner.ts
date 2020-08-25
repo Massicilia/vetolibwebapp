@@ -4,7 +4,5 @@ export interface Petowner {
   surname: string,
   adress: string,
   email: string,
-  phonenum: number,
-  username: string,
-  password: string
+  phonenum: number
 }

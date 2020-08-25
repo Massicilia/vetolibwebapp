@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { AppointmentService } from './appointment.service';
+import { AppointmentService } from '../appointment/appointment.service';
 
 @Component({
   selector: 'pet',

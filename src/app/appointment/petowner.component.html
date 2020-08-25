@@ -1,0 +1,23 @@
+<div *ngIf="petowner"  class="row">
+  <div class="col s12 m8 offset-m2">
+    <div class="card horizontal hoverable">
+      <div class="card-stacked">
+        <div class="card-content">
+          <table class="bordered striped">
+            <tbody>
+            <tr>
+              <td>Propriétaire</td>
+              <td><strong>{{ petowner.surname }} {{ petowner.name }}</strong></td>
+            </tr>
+            <tr>
+              <td>Contact</td>
+              <td><strong>{{ petowner.email }}</strong></td>
+              <td><strong>{{ petowner.phonenum }}</strong></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

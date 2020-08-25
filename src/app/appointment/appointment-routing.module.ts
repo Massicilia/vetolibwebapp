@@ -2,17 +2,14 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DetailsAppointmentComponent }    from './details-appointment.component';
-import { ClientComponent }    from './client.component';
-import { PetComponent }    from './pet.component';
-import {AppointmentService} from './appointment.service';
-
+import { PetownerComponent }    from './petowner.component';
+import { AppointmentDetailsResolver } from './appointment-details.resolver';
 
 const agendaRoutes: Routes = [
-  { path: 'rendez-vous/:id', component: DetailsAppointmentComponent, resolve: {data: AppointmentService}},
-  { path: 'rendez-vous/:id/client', component: ClientComponent },
-  { path: 'rendez-vous/:id/animal', component: PetComponent }
+  { path: 'rendez-vous/:id', component: DetailsAppointmentComponent, resolve: { appointment: AppointmentDetailsResolver }, children: [
+      { path: '', component: PetownerComponent}
+  ]}
 ];
-
 @NgModule({
   imports: [
     RouterModule.forChild(agendaRoutes)
