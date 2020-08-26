@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { PetComponent} from '../healthbook/pet.component';
-import {HealthbookService} from './healthbook.service';
+import { FormsModule } from '@angular/forms';
+import { HealthbookRoutingModule } from './healthbook-routing.module';
+import { HealthbookComponent} from './healthbook.component';
+import { HealthbookService } from './healthbook.service';
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule, HealthbookRoutingModule, FormsModule
   ],
   declarations: [
-    PetComponent,
+    HealthbookComponent,
   ],
   providers: [ HealthbookService]
 })
