@@ -32,11 +32,12 @@ export class LoginComponent implements OnInit {
     this.connexion.email = this.email;
     this.connexion.password = this.password;
     this.authentificationService.login(this.email, this.password).subscribe(data => {
-      console.log('data : '+ data.token);
-      console.log('data : '+ data.nsiret);
+
       this.setMessage();
       if (this.authentificationService.isLoggedIn) {
         this.isLoggedIn = true;
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('nordinal', data.nordinal);
         let redirect = this.authentificationService.redirectUrl ? this.authentificationService.redirectUrl : '/rendez-vous';
         this.router.navigate([redirect]);
       } else {
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.authentificationService.logout();
-    this.setMessage();
+    let redirect = this.authentificationService.redirectUrl ? this.authentificationService.redirectUrl : '/rendez-vous';
+    this.router.navigate([redirect]);
   }
 }

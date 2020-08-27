@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {HealthbookComponent} from './healthbook.component';
 import {HealthbookResolver} from './healthbook.resolver';
+import {AuthGuard} from '../auth-guard.service';
 
 const healthbookRoutes: Routes = [
-  { path: 'carnet/:idpet', component: HealthbookComponent, resolve: { pet: HealthbookResolver }}
+  { path: ':idappointment/:idpetowner/carnet', component: HealthbookComponent, canActivate: [AuthGuard], resolve: { pet: HealthbookResolver }}
 ];
 
 @NgModule({

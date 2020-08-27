@@ -1,4 +1,4 @@
-export interface Petowner {
+export interface Veterinary {
   nordinal: number,
   name: string,
   surname: string,

@@ -5,7 +5,7 @@ import { NewAppointmentComponent }    from './new-appointment.component';
 import { AuthGuard } from '../auth-guard.service';
 
 const agendaRoutes: Routes = [
-  { path: 'rendez-vous', component: NewAppointmentComponent}//, canActivate: [AuthGuard] }
+  { path: 'rendez-vous', component: NewAppointmentComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

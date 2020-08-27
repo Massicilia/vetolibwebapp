@@ -24,19 +24,8 @@ export class AuthentificationService {
       );
   }
 
-  loginn(connexion: Object): Observable<any> {
-    console.log('authentification service ');
-    const httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    }
-    return this.http.post('https://vetolibapi.herokuapp.com/api/v1/veterinary/login', connexion, httpOptions ).pipe(
-      delay(3000),
-      tap(val => this.isLoggedIn = true),
-      catchError(this.handleError)
-    )
-  }
-
   logout(): void {
+    localStorage.clear();
     this.isLoggedIn = false;
   }
 

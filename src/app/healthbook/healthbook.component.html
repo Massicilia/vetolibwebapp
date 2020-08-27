@@ -2,7 +2,7 @@
   <div class = "center">
     <p><em style="color: red">{{message}}</em></p>
   </div>
-  <form #updatepetForm="ngForm" *ngIf="!docreate" (ngSubmit)="updatePet(pet)" class="col s6">
+  <form *ngIf="docreate" #updatepetForm="ngForm" (ngSubmit)="updatePet(pet)" class="col s6">
     <h2 class="header center">{{pet.name}}</h2>
     <div class="row">
       <div class="input-field col s12">
@@ -70,8 +70,8 @@
       </button>
     </div>
   </form>
-  <div *ngIf="docreate" class="center">
-    <a href="carnet/new/{{pet.petowner_idpetowner}}" class="waves-effect waves-light btn-large">Le patient n'a pas de carnet de santé, cliquez pour le créer</a>
+  <div *ngIf="!docreate" class="center">
+    <a href="carnet/new/{{idpetowner}}" class="waves-effect waves-light btn-large">Le patient n'a pas de carnet de santé, cliquez pour le créer</a>
   </div>
 </div>
 

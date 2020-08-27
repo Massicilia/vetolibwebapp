@@ -4,24 +4,40 @@ import {Pet} from '../model/pet';
 import {NewHealthbookService} from './new-healthbook.service';
 
 @Component({
-  selector: 'pet',
+  selector: 'pet-creation',
   templateUrl: './new-healthbook.component.html',
   providers: [NewHealthbookService]
 })
+// @ts-ignore
 export class NewHealthbookComponent implements OnInit {
-  public pet: Pet = null;
+  public pet: Pet;
+  public petowner: number;
   public message: string = null;
   constructor(private route: ActivatedRoute, private router: Router, private newhealthbookService: NewHealthbookService) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.pet = new Pet();
+    this.petowner = +this.route.snapshot.paramMap.get('idpetowner');
+    console.log('petowner : '+ this.petowner);
+  }
 
   addPet(pet:Pet): void {
-      pet.petowner_idpetowner = this.route.params['idpetowner'];
-      console.log('idpetowner: '+ pet.petowner_idpetowner);
+      this.pet.petowner_idpetowner = this.petowner;
+      console.log('pet.petowner_idpetowner : '+ this.pet.petowner_idpetowner);
+      console.log('pet.name : '+ this.pet.name);
+      console.log('pet.age : '+ this.pet.age);
+      console.log('pet.race : '+ this.pet.race);
+      console.log('pet.sex : '+ this.pet.sex);
+      console.log('pet.weight : '+ this.pet.weight);
+      console.log('pet.color : '+ this.pet.color);
+      console.log('pet.tatooID : '+ this.pet.tatooID);
+      console.log('pet.chipID : '+ this.pet.chipID);
+      console.log('pet.sterilized : '+ this.pet.sterilized);
+      console.log('pet.assurance : '+ this.pet.assurance);
+      console.log('pet.nassurance : '+ this.pet.nassurance);
       this.newhealthbookService.addPet(pet).subscribe(
         data => {
-          this.pet = data.pet;
-          console.log('added '+ this.pet.name);
+          console.log('added '+ data);
           this.setMessage();
         },
         error => {
