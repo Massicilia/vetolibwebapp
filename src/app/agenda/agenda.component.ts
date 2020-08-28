@@ -7,7 +7,7 @@ import {
   AgendaService, ScheduleComponent, View,ResizeService, DragAndDropService
 } from '@syncfusion/ej2-angular-schedule';
 import { L10n, loadCldr } from '@syncfusion/ej2-base';
-import {DatePipe} from '@angular/common';
+import {DatePipe, Location} from '@angular/common';
 import {Appointment} from '../model/appointment';
 import {AgendaResolver} from './agenda.resolver';
 import {ActivatedRoute} from '@angular/router';
@@ -161,9 +161,10 @@ export class AgendaComponent {
   public isWeekend: boolean = false;
   public appointOfDay: Planning[] = null;
   public appointments: Appointment[] = null;
-  constructor(private activatedRoute: ActivatedRoute, private agendaResolver: AgendaResolver, private datePipe : DatePipe) {}
+  constructor(private location: Location,private activatedRoute: ActivatedRoute, private agendaResolver: AgendaResolver, private datePipe : DatePipe) {}
 
   ngOnInit() {
+    console.log('location: '+ this.location.path())
     this.JSONData.selectedDate = this.today.toString();
     this.user = this.JSONData;
     this.activatedRoute.data.subscribe((data: { appointments: Appointment[] }) => {

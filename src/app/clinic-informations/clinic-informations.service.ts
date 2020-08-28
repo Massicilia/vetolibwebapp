@@ -4,10 +4,11 @@ import {Veterinary} from '../model/veterinary';
 import {Observable, of} from 'rxjs';
 import {catchError, delay, tap} from 'rxjs/operators';
 import {Pet} from '../model/pet';
+import {Clinic} from '../model/clinic';
 
 @Injectable()
 // @ts-ignore
-export class VeterinaryInformationsService {
+export class ClinicInformationsService {
 
   public isSuccessed: boolean = false;
   public isPsswdMissing: string = null;
@@ -26,28 +27,28 @@ export class VeterinaryInformationsService {
     };
   }
 
-  // Retourne le veterinary avec le nordinal passé en paramètre
-  getVeterinary() {
-    let nordinal = localStorage.getItem('nordinal');
-    const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/veterinary?nordinal=' + nordinal;
-    return this.http.get<Veterinary>(apiURL).pipe(
-      tap(_=> this.log('getting veterinary')),
-      catchError(this.handleError('getVeterinary',[]))
-    );
+  // Retourne la clinique avec le nsiret passé en paramètre
+  getClinic(nsiret:number) {
+    const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/clinic?nsiret=' + nsiret;
+    return this.http.get<Clinic>(apiURL);
+      /*.pipe(
+      tap(_=> this.log('getting clinic')),
+      catchError(this.handleError('getClinic',[]))
+    );*/
   }
 
-  updateVeterinary(veterinary: Veterinary): Observable<Veterinary> {
-    const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/veterinary';
+  updateClinic(clinic: Clinic): Observable<Clinic> {
+    const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/clinic';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
-    return this.http.put<Veterinary>(apiURL, veterinary, httpOptions)
+    return this.http.put<Clinic>(apiURL, clinic, httpOptions)
       .pipe(
         delay(1000),
         tap(val => this.isSuccessed = true),
-        catchError(this.handleError('updateVeterinary', veterinary))
+        catchError(this.handleError('updateClinic', clinic))
       );
   }
 

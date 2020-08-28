@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthentificationService } from './authentification.service';
+import { AuthentificationService } from '../authentification/authentification.service';
 
 @Component({
   selector: 'logout',
@@ -9,6 +9,7 @@ import { AuthentificationService } from './authentification.service';
 //@ts-ignore
 export class LogoutComponent implements OnInit {
 
+  public message:string = null;
   constructor( private authentificationService: AuthentificationService, private router: Router) { }
 
   ngOnInit(): void {
@@ -16,8 +17,10 @@ export class LogoutComponent implements OnInit {
   }
 
   logout() {
+    localStorage.clear();
     this.authentificationService.logout();
-    let redirect = this.authentificationService.redirectUrl ? this.authentificationService.redirectUrl : '/rendez-vous';
+    let redirect = '/login';
     this.router.navigate([redirect]);
+    this.message = 'Vous êtes déconnecté';
   }
 }

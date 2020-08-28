@@ -32,24 +32,17 @@ export class LoginComponent implements OnInit {
     this.connexion.email = this.email;
     this.connexion.password = this.password;
     this.authentificationService.login(this.email, this.password).subscribe(data => {
-
       this.setMessage();
       if (this.authentificationService.isLoggedIn) {
         this.isLoggedIn = true;
         localStorage.setItem('token', data.token);
         localStorage.setItem('nordinal', data.nordinal);
-        let redirect = this.authentificationService.redirectUrl ? this.authentificationService.redirectUrl : '/rendez-vous';
+        console.log(localStorage.getItem('token'));
+        let redirect = '/agenda';
         this.router.navigate([redirect]);
       } else {
         this.password = '';
       }
     });
-  }
-
-
-  logout() {
-    this.authentificationService.logout();
-    let redirect = this.authentificationService.redirectUrl ? this.authentificationService.redirectUrl : '/rendez-vous';
-    this.router.navigate([redirect]);
   }
 }

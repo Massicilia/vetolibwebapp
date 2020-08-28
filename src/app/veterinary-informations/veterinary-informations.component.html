@@ -1,38 +1,53 @@
 <div class='container'>
-<h1>Informations</h1>
-<div class="row">
-  <form class="col s12">
-    <div class="row">
-      <div class="input-field col s6">
-        <input value="{{veterinary.surname}}" id="prenom" type="text" class="validate">
+  <h1>Informations</h1>
+  <div class = "center">
+    <p><em style="color: red">{{message}}</em></p>
+  </div>
+  <div class="row">
+    <form #veterinaryForm="ngForm" (ngSubmit)="updateVeterinary(veterinary)" class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">assignment_ind</i>
+          <input [(ngModel)]="veterinary.nordinal" name="nordinal" value="{{veterinary.nordinal}}" disabled id="disabled" id="nordinal" type="text" class="form-control validate">
+        </div>
       </div>
-      <div class="input-field col s6">
-        <input value="{{veterinary.name}}" id="nom" type="text" class="validate">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">perm_identity</i>
+          <input [(ngModel)]="veterinary.surname" name="surname" value="{{veterinary.surname}}" id="surname" type="text" class="form-control validate">
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">perm_identity</i>
+          <input [(ngModel)]="veterinary.name" name="name" value="{{veterinary.name}}" id="name" type="text" class="form-control validate">
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s6">
-        <input value="{{veterinary.nordinal}}" disabled value="Non modifiable" id="disabled" value="Numéro ordinal" id="numero_ordinal" type="text" class="validate">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">place</i>
+          <input [(ngModel)]="veterinary.adress" name="adress" value="{{veterinary.adress}}" id="adresse" type="text" class="form-control validate">
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">call</i>
+          <input [(ngModel)]="veterinary.phonenum" name="phonenum" value="0{{veterinary.phonenum}}" id="phonenum" type="text" class="form-control validate">
+        </div>
       </div>
-      <div class="input-field col s6">
-        <input value="{{veterinary.adress}}" id="adresse" type="text" class="validate">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">email</i>
+          <input [(ngModel)]="veterinary.email" name="email" value="{{veterinary.email}}" id="email" type="email" class="form-control validate">
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">https</i>
+          <input [(ngModel)]="veterinary.password" name="password" placeholder="******" value="{{veterinary.password}}" id="password" type="password" class="form-control validate">
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s6">
-        <input value="{{veterinary.email}}" id="email" type="email" class="validate">
+      <div class="row">
+        <button class="btn waves-effect waves-light" type="submit" name="action">Modifier
+          <i class="material-icons right">send</i>
+        </button>
       </div>
-      <div class="input-field col s6">
-        <input value="{{veterinary.password}}" id="password" type="password" class="validate">
-      </div>
-    </div>
-    <div class="row">
-      <button class="btn waves-effect waves-light" type="submit" name="action">Modifier
-        <i class="material-icons right">send</i>
-      </button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
-</div>
-<!-- ajouter la clinique-->
+<clinic-informations [nsiret]="nsiret" ></clinic-informations>
 

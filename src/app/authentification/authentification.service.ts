@@ -9,13 +9,12 @@ export class AuthentificationService {
   constructor(private http: HttpClient) {
   }
   isLoggedIn: boolean = false;
-  redirectUrl: string = 'agenda';
+  redirectUrl: string = '/agenda';
 
   login(email: string, password: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-
     return this.http.post<Connexion>('https://vetolibapi.herokuapp.com/api/v1/veterinary/login', {email, password}, httpOptions)
       .pipe(
         delay(1000),

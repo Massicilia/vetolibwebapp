@@ -4,8 +4,8 @@ export interface Veterinary {
   surname: string,
   adress: string,
   email: string,
-  phonenum: number,
-  nsiret: number,
+  phonenum: string,
+  clinic_nsiret: number,
   username: string,
   password: string
 }

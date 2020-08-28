@@ -10,11 +10,14 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { HealthbookModule } from './healthbook/healthbook.module';
 import { NewAppointmentModule } from './new-appointment/new-appointment.module';
 import { AuthentificationModule } from './authentification/authentification.module';
+import { LogoutModule } from './logout/logout.module';
 import { BillingandinvoicesModule } from './billingandinvoices/billingandinvoices.module';
 import { NewHealthbookModule } from './new-healthbook/new-healthbook.module';
+import { NavbarModule } from './navbar/navbar.module';
 import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found';
+import { ClinicInformationsModule } from './clinic-informations/clinic-informations.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { PageNotFoundComponent } from './page-not-found';
     BillingandinvoicesModule,
     HealthbookModule,
     NewHealthbookModule,
+    LogoutModule,
+    NavbarModule,
+    ClinicInformationsModule,
     AppRoutingModule
   ],
   providers: [],
