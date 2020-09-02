@@ -1,23 +1,17 @@
 <div class='container'>
   <h3 class="center">Facturation</h3>
-  <div class='row'>
-    <ul class="collapsible col s12 right">
-      <li>
-        <div class="collapsible-header">
-          <i class="material-icons">receipt</i>
-          Facturation
-        </div>
-        <div class="collapsible-body"><p>Facture n1 </p></div>
-      </li>
-      <li>
-        <div class="collapsible-header">
-          <i class="material-icons">payment</i>
-          Méthodes de paiement
-        </div>
-        <div class="collapsible-body"><p>Mastercard</p></div>
-      </li>
-    </ul>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Mois</th>
+        <th>Montant de la facture(euros)</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let invoice of invoices" >
+      <td>{{invoice.date}}</td>
+      <td>{{invoice.amountinvoice}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
-
-<!-- [eventSettings]="eventSettings"-->

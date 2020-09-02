@@ -1,0 +1,88 @@
+<div class='container'>
+  <div class = "center">
+    <p><em style="color: red">{{message}}</em></p>
+  </div>
+  <h1>Inscription</h1>
+  <form #newveterinaryForm="ngForm" (ngSubmit)="addVeterinary(veterinary)" class="col s12">
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">format_list_numbered</i>
+        <input [(ngModel)]="veterinary.nordinal" name="nordinal" id="nordinal" type="text" class="form-control validate">
+        <label class="active" for="nordinal">Numéro ordinal</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">account_circle</i>
+        <input [(ngModel)]="veterinary.surname" name="surname" id="surname" type="text" class="form-control validate">
+        <label class="active" for="surname">Prénom</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">account_circle</i>
+        <input [(ngModel)]="veterinary.name" name="name" id="name" type="text" class="form-control validate">
+        <label class="active" for="name">Nom</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">person_pin_circle</i>
+            <input [(ngModel)]="veterinary.adress" name="adress" type="text" id="adress" class="form-control validate">
+            <label class="active" for="adress">Adresse</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">contact_mail</i>
+        <input [(ngModel)]="veterinary.email" name="email" id="email" type="email" class="form-control validate">
+        <label class="active" for="email">Email</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">contact_phone</i>
+        <input [(ngModel)]="veterinary.phonenum" name="phonenum" id="phonenum" type="tel" class="form-control validate">
+        <label class="active" for="phonenum">Téléphone</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">contacts</i>
+        <input [(ngModel)]="veterinary.username" name="username" id="username" type="text" class="form-control validate">
+        <label class="active" for="username">Identifiant</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">https</i>
+        <input [(ngModel)]="veterinary.password" name="password" id="password" type="password" class="form-control validate">
+        <label class="active" for="password">Mot de passe</label>
+      </div>
+    </div>
+    <div class="row">
+      <p>
+        <label class=" center">
+          <input name="clinicchoice"  [(ngModel)]="clinicchoice" type="radio" [value]="true" [checked]="clinicchoice" checked />
+          <span> Votre clinique est déjà enregistrée sur Vetolib</span>
+        </label>
+      </p>
+      <p>
+        <label class=" center">
+          <input name="clinicchoice"  [(ngModel)]="clinicchoice" type="radio" [value]="false" [checked]="clinicchoice" />
+          <span>Votre clinique n'est pas enregistrée sur Vetolib</span>
+        </label>
+      </p>
+    </div>
+    <div *ngIf="clinicchoice" class="row">
+      <clinic-selection></clinic-selection>
+    </div>
+    <div *ngIf="!clinicchoice" class="row">
+      <new-clinic></new-clinic>
+    </div>
+    <div class="row">
+      <button class="btn waves-effect waves-light" type="submit" name="action" >S'inscrire
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,31 @@
+<div class="col s12 m8 offset-m2">
+  <div class = "center">
+    <p><em style="color: red">{{message}}</em></p>
+  </div>
+  <h4 class="header center">Trouver votre clinique</h4>
+  <div class="card horizontal hoverable">
+    <div class="card-stacked">
+      <div class="card-content">
+        <form #searchclinicForm="ngForm" (ngSubmit)="findClinic()" class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">perm_identity</i>
+              <mat-autocomplete #clinicauto="matAutocomplete">
+                <mat-option *ngFor="let clinic of filteredClinicsNames | async" [value]="clinic">
+                  {{clinic}}
+                </mat-option>
+              </mat-autocomplete>
+              <input [(ngModel)]="clinicname" name="clinicname" id="clinic" type="text" class="autocomplete" matInput [formControl]="control" [matAutocomplete]="clinicauto">
+              <label class="active" for="clinic">Clinique</label>
+            </div>
+          </div>
+          <div class="row">
+            <button class="btn waves-effect waves-light" type="submit" name="action" >Rechercher
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
