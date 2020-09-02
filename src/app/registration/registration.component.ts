@@ -16,6 +16,7 @@ export class RegistrationComponent implements OnInit {
   public message:string = null;
   public veterinary:Veterinary;
   public clinicchoice: boolean = true;
+  public success: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private registrationService: RegistrationService, private newClinicService: NewClinicService) {}
 
@@ -62,9 +63,10 @@ export class RegistrationComponent implements OnInit {
     } else {
       if(this.registrationService.isSuccessed ){
         this.message = 'Votre demande d\'inscription est enregistrée. Vous recevrez un email lorsqu\'elle sera validée';
-       /* setTimeout(()=>{                           //<<<---using ()=> syntax
+        this.success = true;
+         setTimeout(()=>{
           this.router.navigate(['/login']);
-        }, 3000);*/
+        }, 3000);
       }else {
         this.message =  'Votre demande d\'inscription a échoué';
       }
