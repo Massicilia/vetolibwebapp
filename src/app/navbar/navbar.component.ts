@@ -14,9 +14,11 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
-    setTimeout(() => console.log('location : '+ this.location.path() ), 10000);
-    if(this.location.path() == '' || this.location.path() == '/login' || this.location.path() == '/motdepasse' || this.location.path() == '/inscription' || this.location.path() == '/logout' || this.location.path() == '/agenda'){
-      this.navbarVisibility = false;
-    }
+    setTimeout(() => {
+      if(this.location.path() == '' || this.location.path() == '/login' || this.location.path() == '/motdepasse' || this.location.path() == '/inscription' || this.location.path() == '/logout'){
+        this.navbarVisibility = false;
+      }
+    }, 100);
+
   }
 }

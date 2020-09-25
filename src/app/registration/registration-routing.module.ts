@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {RegistrationComponent} from './registration.component';
 import {RegistrationService} from './registration.service';
 import {PetownerComponent} from '../appointment/petowner.component';
-import {NewClinicComponent} from '../new-clinic/new-clinic.component';
+import {NewClinicComponent} from '../clinic-new/new-clinic.component';
 import {ClinicSelectionComponent} from '../clinic-selection/clinic-selection.component';
 
 const registrationRoutes: Routes = [

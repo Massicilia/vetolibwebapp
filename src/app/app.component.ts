@@ -7,13 +7,11 @@ import {Router} from '@angular/router';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  public navbarVisibility : boolean = true;
+  public navbarVisibility : boolean = false;
   constructor(private location: Location){
   }
 
   ngOnInit(): void {
-    if(this.location.path() == '' || this.location.path() == '/login' || this.location.path() == '/motdepasse' || this.location.path() == '/inscription' || this.location.path() == '/logout' || this.location.path() == '/agenda'){
-      this.navbarVisibility = false;
-    }
+    this.navbarVisibility = !(this.location.path() == '' || this.location.path() == '/login' || this.location.path() == '/motdepasse' || this.location.path() == '/inscription' || this.location.path() == '/logout' || this.location.path() == '/agenda');
   }
 }

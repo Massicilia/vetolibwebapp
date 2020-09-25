@@ -5,15 +5,33 @@ import { Pet } from '../model/pet';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
+import {Veterinary} from '../model/veterinary';
+import {Appointment} from '../model/appointment';
 
 
 @Injectable()
 // @ts-ignore
 export class NewAppointmentService {
-
+  public isSuccessed:boolean = false;
   constructor(private http: HttpClient) {
   }
-  private appointmentUrl = 'https://vetolibapi.herokuapp.com/api/v1/';
+  addAppointment(appointment: Appointment): Observable<Appointment> {
+    const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/appointment';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.http.post<Appointment>(apiURL, appointment, httpOptions)
+      .pipe(
+        tap(val => {
+          this.isSuccessed = true;
+          console.log('success');
+        }),
+        catchError(this.handleError('postAppointment', appointment))
+      );
+  }
+
   private log(log: string){
     console.info(log);
   }
@@ -24,23 +42,6 @@ export class NewAppointmentService {
       console.log('${operation} failed: ${error.message }');
       return of(result as T);
     };
-  }
-  // Retourne tous les petowners
-  getPetowners(): Observable<Petowner[]> {
-    return this.http.get<Petowner[]>(this.appointmentUrl + 'petowner/all').pipe(
-      tap(_=> this.log('fetched petowners')),
-      catchError(this.handleError('getPetowners',[]))
-    );
-  }
-
-  // Retourne la liste des animaux d'un petowner par son id passé en paramètre
-  getPets(idpetowner: number): Observable<Pet[]> {
-    const url = '${this.appointment}+petbypetowner?petowner_idpetowner=/${idpetowner}';
-
-    return this.http.get<Pet[]>(url).pipe(
-      tap(_ => this.log('fetched pets id=${idpetowner}')),
-      catchError(this.handleError('getPet is=${idpetowner', []))
-    );
   }
 }
 

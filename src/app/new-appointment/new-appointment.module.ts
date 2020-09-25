@@ -11,6 +11,7 @@ import { FilterPipe } from './unique.pipe';
 import { AuthGuard } from '../auth-guard.service';
 
 import { NewAppointmentComponent } from './new-appointment.component';
+import {SchedulerModule} from '../scheduler/scheduler.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { NewAppointmentComponent } from './new-appointment.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    SchedulerModule,
     NewAppointmentRoutingModule
   ],
   declarations: [

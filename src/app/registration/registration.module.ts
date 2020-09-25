@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { RegistrationComponent } from './registration.component';
 import { RegistrationRoutingModule } from './registration-routing.module';
-import { NewClinicModule } from '../new-clinic/new-clinic.module';
+import { NewClinicModule } from '../clinic-new/new-clinic.module';
 import { ClinicSelectionModule } from '../clinic-selection/clinic-selection.module';
 
 

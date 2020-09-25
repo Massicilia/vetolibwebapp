@@ -1,6 +1,5 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { ClinicInformationsComponent }    from './clinic-informations.component';
 import { AuthGuard } from '../auth-guard.service';
 

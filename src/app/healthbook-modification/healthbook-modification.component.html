@@ -1,0 +1,72 @@
+<div class = "center">
+  <p><em style="color: red">{{message}}</em></p>
+</div>
+<form *ngIf="displayForm" #updatepetForm="ngForm" (ngSubmit)="updatePet(pet)" class="col s12">
+  <h2 class="header center">{{pet.name}}</h2>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.age" name="age" value="{{pet.age}}" id="age" type="text" class="form-control validate">
+      <label class="active" for="age">Âge (années)</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.race" name="race" value="{{pet.race}}" id="race" type="text" class="form-control validate">
+      <label class="active" for="race">Race</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.sex" name="sex" value="{{pet.sex}}" id="sex" type="text" class="form-control validate">
+      <label class="active" for="sex">Sexe</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.weight" name="weight" value="{{pet.weight}} kg" id="weight" type="text" class="form-control validate">
+      <label class="active" for="weight">Poids (kg)</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.color" name="color" value="{{pet.color}}" id="color" type="text" class="form-control validate">
+      <label class="active" for="color">Couleur</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.tatooID" name="tatooID" value="{{pet.tatooID}}" id="tatooID" type="text" class="form-control validate">
+      <label class="active" for="tatooID">Tatouage d'identification</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.chipID" name="chipID" value="{{pet.chipID}}" id="chipID" type="text" class="form-control validate">
+      <label class="active" for="chipID">Puce d'identification</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.sterilized" name="sterilized" value="{{pet.sterilized}}" id="sterilized" type="text" class="form-control validate">
+      <label class="active" for="sterilized">Stérilisation</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.assurance" name="assurance" value="{{pet.assurance}}" id="assurance" type="text" class="form-control validate">
+      <label class="active" for="assurance">Assurance</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input [(ngModel)]="pet.nassurance" name="nassurance" value="{{pet.nassurance}}" id="nassurance" type="text" class="form-control validate">
+      <label class="active" for="nassurance">Numéro d'assurance</label>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn waves-effect waves-light" type="submit" name="action" >Modifier le carnet de santé
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+

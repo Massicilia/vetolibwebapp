@@ -1,12 +1,13 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import {HealthbookComponent} from './healthbook.component';
-import {HealthbookResolver} from './healthbook.resolver';
-import {AuthGuard} from '../auth-guard.service';
+import { HealthbookComponent } from './healthbook.component';
+import { AuthGuard } from '../auth-guard.service';
+import { HealthbookModificationComponent } from '../healthbook-modification/healthbook-modification.component';
 
 const healthbookRoutes: Routes = [
-  { path: ':idappointment/:idpetowner/carnet', component: HealthbookComponent, canActivate: [AuthGuard], resolve: { pet: HealthbookResolver }}
+  { path: ':idappointment/:idpetowner', component: HealthbookComponent, canActivate: [AuthGuard], children: [
+      { path: 'carnet', component: HealthbookModificationComponent}
+  ]}
 ];
 
 @NgModule({

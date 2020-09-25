@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^4.0.2",
     "@angular/animations": "^10.0.5",
     "@angular/cdk": "^10.1.1",
     "@angular/common": "~10.0.4",
@@ -35,9 +36,13 @@
     "@syncfusion/ej2-inputs": "^18.2.45",
     "@syncfusion/ej2-popups": "^18.2.46",
     "@syncfusion/ej2-splitbuttons": "^18.2.44",
+    "angular-polyfills": "^1.0.1",
     "cldr-data": "^36.0.0",
+    "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "jquery-datepicker": "^1.12.3",
+    "moment": "^2.27.0",
+    "payform": "^1.4.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

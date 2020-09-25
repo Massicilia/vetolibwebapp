@@ -2,7 +2,7 @@
 <div class='container'>
   <div class='row'>
     <h3 class="center">Planning</h3>
-    <ejs-calendar class="col s6 left" #schedule height='550px' locale="fr" [value]='user.selectedDate' [firstDayOfWeek]='startWeek' (renderDayCell)='disabledDate($event)' (change)='onChange($event)'></ejs-calendar>
+    <ejs-calendar class="col s6 left" #schedule height='550px' [value]='user.selectedDate' [firstDayOfWeek]='startWeek' (renderDayCell)='disabledDate($event)' (change)='onChange($event)'></ejs-calendar>
     <div *ngIf="isWeekend" class="row">
       <div class="col s12 m5">
         <div class="card-panel teal">

@@ -219,6 +219,7 @@ export class AgendaComponent {
    * @param args
    */
   onChange(args) {
+    console.log('date : '+ args.value);
     if(args.value!=null){
       this.appointOfDay = null;
       this.isAppoint = false;

@@ -2,8 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Veterinary } from '../model/veterinary';
 import {RegistrationService} from './registration.service';
-import {NewClinicService} from '../new-clinic/new-clinic.service';
-import {NewClinicComponent} from '../new-clinic/new-clinic.component';
+import {NewClinicService} from '../clinic-new/new-clinic.service';
+import {NewClinicComponent} from '../clinic-new/new-clinic.component';
 import {ClinicSelectionComponent} from '../clinic-selection/clinic-selection.component';
 
 @Component({

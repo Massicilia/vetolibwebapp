@@ -1,22 +1,16 @@
 <div class='container'>
-  <h1>Rendez-vous</h1>
-  <form class="col s12">
+  <div class = "center">
+    <p><em style="color: red">{{message}}</em></p>
+  </div>
+  <form *ngIf="!success" #newappoointmentForm="ngForm" (ngSubmit)="addAppointment(appointment)" class="col s12">
+    <h1>Rendez-vous</h1>
     <div class="row">
-      <div class="input-field col s6">
-        <i class="material-icons prefix">date_range</i>
-        <input id="date" type="date" class="datepicker"/>
-        <label class="active" for="date">Date</label>
-      </div>
-      <div class="input-field col s6">
-        <i class="material-icons prefix">timelapse</i>
-        <input id="time" type="time" class="timepicker"/>
-        <label class="active" for="time">Horaire</label>
-      </div>
+      <appointment-scheduler></appointment-scheduler>
     </div>
     <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">message</i>
-        <textarea id="reason" class="materialize-textarea"></textarea>
+        <textarea [(ngModel)]="appointment.reason" name="reason" id="reason" class="materialize-textarea form-control validate"></textarea>
         <label class="active" for="reason">Motif</label>
       </div>
     </div>
@@ -28,7 +22,7 @@
             {{petowner}}
           </mat-option>
         </mat-autocomplete>
-        <input id="client" type="text" class="autocomplete" matInput [formControl]="control" [matAutocomplete]="auto">
+        <input id="client" type="text" class="autocomplete form-control validate" matInput [formControl]="control" [matAutocomplete]="auto">
         <label class="active" for="client">Client</label>
       </div>
       <div class="input-field col s6">
@@ -38,18 +32,20 @@
             {{petowneremail}}
           </mat-option>
         </mat-autocomplete>
-        <input id="clientemail" type="email" class="autocomplete" matInput [formControl]="control" [matAutocomplete]="autoEmails">
+        <input [(ngModel)]="appointment.petowner_idpetownerappoint" name="petowner_idpetownerappoint" id="clientemail" type="email" class="autocomplete form-control validate" matInput [formControl]="control" [matAutocomplete]="autoEmails">
         <label class="active" for="clientemail">Email</label>
       </div>
     </div>
-    <div class="row">
-      <div class="input-field col s6" id="options" >
-        <ul>
-          <li [ngStyle]="{'visibility': arePetsdisplayed == 1 ? 'visible' : 'hidden'}">
-            <h6>Animal</h6>
-          </li>
-          <li *ngFor="let pet of petsNames" id="{{pet}}"><p><label><input type="checkbox"><span>{{pet}}</span></label></p></li>
-        </ul>
+    <div class="row" [ngStyle]="{'visibility': arePetsdisplayed == 1 ? 'visible' : 'hidden'}">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">perm_identity</i>
+        <mat-autocomplete #petauto="matAutocomplete">
+          <mat-option *ngFor="let pet of filteredPets | async" [value]="pet">
+            {{pet}}
+          </mat-option>
+        </mat-autocomplete>
+        <input [(ngModel)]="appointment.pet_idpetappoint" name="pet_idpetappoint" id="pet" type="text" class="autocomplete form-control validate" matInput [formControl]="control" [matAutocomplete]="petauto">
+        <label class="active" for="pet">Animal</label>
       </div>
     </div>
     <div class="row">
