@@ -1,30 +1,23 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-
+import { MatOption } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+import { SchedulerComponent } from '../scheduler/scheduler.component';
+import { Appointment } from '../model/appointment';
 import { Petowner } from '../model/petowner';
 import { Pet } from '../model/pet';
 import { NewAppointmentService } from './new-appointment.service';
-import {MatOption} from '@angular/material/core';
-import {NewClinicComponent} from '../clinic-new/new-clinic.component';
-import {SchedulerComponent} from '../scheduler/scheduler.component';
-import {Veterinary} from '../model/veterinary';
-import {Appointment} from '../model/appointment';
-import {DatePipe} from '@angular/common';
-
-interface jQuery {
-  datepicker():void;
-}
 
 @Component({
   selector: 'appointment',
   templateUrl: './new-appointment.component.html',
-  providers:[NewAppointmentService, DatePipe]
+  providers:[ NewAppointmentService, DatePipe ]
 })
-// @ts-ignore
+
 export class NewAppointmentComponent implements OnInit {
   @ViewChild(SchedulerComponent) schedulerComponent: SchedulerComponent;
   petowners: Petowner[] = null;
@@ -34,20 +27,22 @@ export class NewAppointmentComponent implements OnInit {
   petsNames: string[] = null;
   idpetowner: number = null;
   arePetsdisplayed: number = 0;
-  startDate: Date = new Date();
   message: string = null;
   success: boolean = false;
   appointment: Appointment;
   mapNordinal = new Map();
   petGroup: FormGroup;
 
-
   control = new FormControl();
   filteredNames: Observable<string[]>;
   filteredEmails: Observable<string[]>;
   filteredPets: Observable<string[]>;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private appointmentService: NewAppointmentService, private datePipe : DatePipe) {
+  constructor(private http: HttpClient,
+              private route: ActivatedRoute,
+              private router: Router,
+              private appointmentService: NewAppointmentService,
+              private datePipe : DatePipe) {
     this.appointment = new Appointment();
   };
 
@@ -61,8 +56,46 @@ export class NewAppointmentComponent implements OnInit {
         this.petownersNamesAutocomplete();
       });
   }
-
-  getPetowners(): Promise<Object> {
+  /**
+   *
+   * @param appointment
+   */
+  private addAppointment(appointment:Appointment){
+    appointment.date = this.getDateFormatForAppointment();
+    appointment.veterinary_nordinal = parseInt(localStorage.getItem('nordinal'), 10);
+    appointment.petowner_idpetownerappoint = this.mapNordinal.get(appointment.petowner_idpetownerappoint);
+    if(appointment.date != null && appointment.pet_idpetappoint != null){
+      appointment.pet_idpetappoint = this.getPetID(appointment.petowner_idpetownerappoint, appointment.pet_idpetappoint.toString());
+      this.appointmentService.addAppointment(appointment).subscribe(
+        data => {
+          this.setMessage();
+          appointment = null;
+        },
+        error => {
+          console.log(error.message);
+        });
+    }else {
+      this.message = appointment.date == null?'La date est invalide':'Veuillez remplir tous les champs';
+    }
+  }
+  /**
+   *
+   * @param idPetowner
+   * @param namePet
+   */
+  private getPetID(idPetowner: number, namePet: string): number{
+    var idpet = 0;
+      for ( let i = 0; i<this.pets.length; i++){
+        if(this.pets[i].petowner_idpetowner == idPetowner && this.pets[i].name == namePet){
+          idpet = this.pets[i].idpet;
+        }
+    }
+      return idpet;
+  }
+  /**
+   * get list petowners
+   */
+  private getPetowners(): Promise<Object> {
     const promise = new Promise((resolve, reject) => {
       const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/petowner/all';
       this.http
@@ -88,8 +121,10 @@ export class NewAppointmentComponent implements OnInit {
     });
     return promise;
   }
-
-  getPets(): Promise<Object> {
+  /**
+   * get pets by petowner
+   */
+  private getPets(): Promise<Object> {
     const promise = new Promise((resolve, reject) => {
       const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/pet/bypetowner?petowner_idpetowner=' + this.idpetowner;
       this.http
@@ -112,51 +147,66 @@ export class NewAppointmentComponent implements OnInit {
     });
     return promise;
   }
-
-  // autocomplete filter petowners names
+  /**
+   * autocomplete filter petowners names
+   * @param value
+   * @private
+   */
   private _filterPetownersNames(value: string): string[] {
     //const filterValue = value.toLowerCase();
     return this.petownersNames.filter(option => option.toLowerCase().indexOf(value) === 0);
   }
-
-  // autocomplete filter petowners emails
+  /**
+   * autocomplete filter petowners emails
+   * @param value
+   * @private
+   */
   private _filterPetownersEmails(value: string): string[] {
     //const filterValue = value.toLowerCase();
     return this.petownersEmails.filter(option => option.toLowerCase().indexOf(value) === 0);
   }
-
-  // autocomplete petowners emails
+  /**
+   * autocomplete petowners emails
+   */
   private petownersEmailsAutocomplete() {
     this.filteredEmails = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this._filterPetownersEmails(value))
     );
   }
-
-  // autocomplete petowners names
+  /**
+   * autocomplete petowners names
+   */
   private petownersNamesAutocomplete() {
     this.filteredNames = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this._filterPetownersNames(value))
     );
   }
-
-  // autocomplete filter petowners emails
+  /**
+   * autocomplete filter petowners emails
+   * @param value
+   * @private
+   */
   private _filterPets(value: string): string[] {
     //const filterValue = value.toLowerCase();
     return this.petsNames.filter(option => option.toLowerCase().indexOf(value) === 0);
   }
-
-  // autocomplete petowners emails
+  /**
+   * autocomplete pets emails
+   */
   private petsAutocomplete() {
     this.filteredPets = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this._filterPets(value))
     );
   }
-
-  //recove selected email
-  OnEmailSelected(option: MatOption) {
+  /**
+   *
+   * @param option
+   * @constructor
+   */
+  private OnEmailSelected(option: MatOption) {
     this.petsNames = null;
     for (let index = 0; index < this.petowners.length; index++) {
       if (option.value == this.petowners[index].email) {
@@ -171,45 +221,20 @@ export class NewAppointmentComponent implements OnInit {
 
 
   }
-
-  //add an appointment
-  addAppointment(appointment:Appointment){
-    console.log('this.getDateFormatForAppointment()');
-    console.log(this.getDateFormatForAppointment());
-    //appointment.date = Date.parse(this.getDateFormatForAppointment());
-    appointment.date = this.getDateFormatForAppointment();
-    appointment.veterinary_nordinal = parseInt(localStorage.getItem('nordinal'), 10);
-    appointment.petowner_idpetownerappoint = this.mapNordinal.get(appointment.petowner_idpetownerappoint);
-    console.log('nordinal : '+ appointment.veterinary_nordinal);
-    console.log('dateappoint : '+ appointment.date);
-    console.log('petowner : '+ appointment.petowner_idpetownerappoint);
-    console.log('pet : '+ appointment.pet_idpetappoint);
-    console.log('reason : '+ appointment.reason);
-    if(appointment.date != null){
-      this.appointmentService.addAppointment(appointment).subscribe(
-        data => {
-          console.log('added '+ data);
-          this.setMessage();
-        },
-        error => {
-          console.log(error.message);
-        });
-    }else {
-      this.message = 'La date est invalide';
-    }
-
-  }
-
-  getDateFormatForAppointment(): Date{
+  /**
+   * date by scheduler
+   * returns Date in format yyyy-MM-dd HH:mm:ss
+   */
+  private getDateFormatForAppointment(): Date{
     let dateappoint = this.schedulerComponent.exportDate;
-    console.log('dateappoint : '+ dateappoint);
     let dateappointFormat = this.datePipe.transform(dateappoint, 'yyyy-MM-dd HH:mm:ss');
-    console.log('dateappointFormat : '+ dateappointFormat);
     let date = new Date(dateappointFormat);
-    console.log('date : '+ date);
     return date;
   }
-  setMessage() {
+  /**
+   * error message
+   */
+  private setMessage() {
       if(this.appointmentService.isSuccessed ){
         this.message = 'Le rendez-pris est pris.';
         this.success = true;

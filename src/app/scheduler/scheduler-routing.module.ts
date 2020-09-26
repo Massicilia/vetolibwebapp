@@ -1,10 +1,8 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SchedulerComponent } from './scheduler.component';
-
-import {NewAppointmentComponent} from '../new-appointment/new-appointment.component';
-import {AuthGuard} from '../auth-guard.service';
-import {AgendaResolver} from '../agenda/agenda.resolver';
+import { AuthGuard } from '../auth-guard.service';
+import { AgendaResolver } from '../agenda/agenda.resolver';
 
 
 const schedulerRoutes: Routes = [

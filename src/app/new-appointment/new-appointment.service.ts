@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Petowner } from '../model/petowner';
-import { Pet } from '../model/pet';
-
-import { HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
-import {Veterinary} from '../model/veterinary';
-import {Appointment} from '../model/appointment';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { Appointment } from '../model/appointment';
 
 @Injectable()
-// @ts-ignore
+
 export class NewAppointmentService {
   public isSuccessed:boolean = false;
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
+
+  /**
+   *
+   * @param appointment
+   */
   addAppointment(appointment: Appointment): Observable<Appointment> {
     const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/appointment';
     const httpOptions = {
@@ -32,10 +31,19 @@ export class NewAppointmentService {
       );
   }
 
+  /**
+   *
+   * @param log
+   */
   private log(log: string){
     console.info(log);
   }
 
+  /**
+   *
+   * @param operation
+   * @param result
+   */
   private handleError<T>(operation='operation', result?: T){
     return (error: any): Observable<T> => {
       console.log(error);

@@ -1,11 +1,9 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import {DatePipe, formatDate} from '@angular/common';
-import {loadCldr, L10n, setCulture} from '@syncfusion/ej2-base';
-import {Appointment} from '../model/appointment';
-import {ActivatedRoute} from '@angular/router';
-import { DateTimePickerComponent} from '@syncfusion/ej2-angular-calendars';
-import {AgendaResolver} from '../agenda/agenda.resolver';
+import { DatePipe } from '@angular/common';
+import { loadCldr, L10n, setCulture } from '@syncfusion/ej2-base';
+import { Appointment } from '../model/appointment';
+import { ActivatedRoute } from '@angular/router';
 import {
   AgendaService,
   DayService,
@@ -15,6 +13,7 @@ import {
   WeekService,
   WorkWeekService
 } from '@syncfusion/ej2-angular-schedule';
+
 export interface JSONUser {
   selectedDate: string;
 }
@@ -35,20 +34,18 @@ export class SchedulerComponent {
   };
   public model_result: string = JSON.stringify(this.JSONData);
 
-  //////////////////////////////////////
   public startWeek: number = 1;
   public today: Date = new Date();
   public exportDate: Date = null;
 
-  ///////////////////////////////////////
   public date: Date = null;
   public minDate: Date = new Date(this.today.getFullYear(),this.today.getMonth(), this.today.getDay(), 8, 0, 0);
 
-  public schedulermessage: string = null;
+  public schedulerMessage: string = null;
   public appointmentDates: Date[] = null;
-  public appointments: Appointment[];
 
-  constructor(private activatedRoute: ActivatedRoute, private datePipe : DatePipe) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private datePipe : DatePipe) {
     loadCldr(
       require('cldr-data/supplemental/numberingSystems.json'),
       require('cldr-data/main/fr/ca-gregorian.json'),
@@ -166,42 +163,61 @@ export class SchedulerComponent {
       }
     });
   }
+
   ngOnInit() {
     this.JSONData.selectedDate = this.minDate.toString();
     this.exportDate = this.minDate;
     this.user = this.JSONData;
-    this.activatedRoute.data.subscribe((data: { appointments: Appointment[] }) => {
-      this.appointments = data.appointments;
-      this.appointmentDates = this.appointmentDates || [];
-      for(let index=0; index<this.appointments.length; index++){
-        this.appointmentDates.push(this.appointments[index].date)
-      }
-    });
   }
+  /**
+   * returns agenda dates
+   * Date[]
+   */
+  getVeterinaryAgendaDates(): Date[]{
+    var appointments: Appointment[] = null;
+    var appointmentDates: Date[] = null;
+    this.activatedRoute.data.subscribe(
+      (data: { appoints: Appointment[] }) => {
+                  appointments = data.appoints;
+                  console.log('appointments : '+ appointments)
+    });
+    console.log('appointments : '+ appointments)
+    appointmentDates = appointmentDates || [];
+    for(let index=0; index<appointments.length; index++){
+      appointmentDates.push(appointments[index].date)
+    }
+    return appointmentDates;
+  }
+  /**
+   *
+   * @param args
+   */
   onChange(args) {
     this.JSONData.selectedDate = args.value;
     this.exportDate = args.value;
     this.model_result = JSON.stringify(this.JSONData);
     if(args.value != null){
-      if(this.appointmentDates != null){
+      if(this.getVeterinaryAgendaDates() != null){
         let dateformat = this.datePipe.transform(args.value, 'yyyy-MM-dd HH:mm:ss');
         for(let index=0; index<this.appointmentDates.length; index++){
-          let appointmentdateformat = this.datePipe.transform(this.appointmentDates[index], 'yyyy-MM-dd HH:mm:ss');;
+          let appointmentdateformat = this.datePipe.transform(this.appointmentDates[index], 'yyyy-MM-dd HH:mm:ss');
           if(dateformat == appointmentdateformat){
             args.isDisabled = true;
-            this.schedulermessage = 'Date indisponible';
+            this.schedulerMessage = 'Date indisponible';
           }
         }
       }
       if(args.value.getHours()<8 || args.value.getHours()>19) {
         args.isDisabled = true;
-        this.schedulermessage = 'Date indisponible';
+        this.schedulerMessage = 'Date indisponible';
         this.date = null;
       }
     }
-    console.log('this.exportDate : '+ this.exportDate);
-    console.log('date : '+ this.user.selectedDate);
   }
+  /**
+   * disable week end & not working hours
+   * @param args
+   */
   onRenderCell(args) {
     if (args.date.getDay() == 0 || args.date.getDay() == 6 || args.date.getHours() == 7 ) {
       args.isDisabled = true;

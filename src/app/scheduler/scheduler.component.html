@@ -1,4 +1,4 @@
 <div class = "center">
-  <p><em style="color: red">{{schedulermessage}}</em></p>
+  <p><em style="color: red">{{schedulerMessage}}</em></p>
 </div>
-<ejs-datetimepicker id="datetime" [(value)]='user.selectedDate' #scheduler [min]='minDate' [firstDayOfWeek]='startWeek' (renderDayCell)='onRenderCell($event)' (change)='onChange($event)' locale="fr"></ejs-datetimepicker>
+<ejs-datetimepicker id="datetime" [(value)]='JSONData.selectedDate' #scheduler [min]='minDate' [firstDayOfWeek]='startWeek' (renderDayCell)='onRenderCell($event)' (change)='onChange($event)' locale="fr"></ejs-datetimepicker>
