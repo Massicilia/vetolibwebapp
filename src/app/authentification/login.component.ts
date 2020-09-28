@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthentificationService } from './authentification.service';
 
@@ -17,16 +17,13 @@ export class LoginComponent implements OnInit {
   isLoggedIn: boolean = false;
   connexion: Connexion = new Connexion();
 
-  constructor( private authentificationService: AuthentificationService, private router: Router) { }
+  constructor( private authentificationService: AuthentificationService,
+               private router: Router) { }
 
-  ngOnInit(): void {
-  }
-
-  setMessage() {
-    this.message = this.authentificationService.isLoggedIn ?
-      'Vous êtes connecté.' : 'Identifiant ou mot de passe incorrect.';
-  }
-
+  ngOnInit(): void {}
+  /**
+   *
+   */
   login() {
     this.message = 'Tentative de connexion en cours ...';
     this.connexion.email = this.email;
@@ -45,4 +42,12 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+  /**
+   *
+   */
+  setMessage() {
+    this.message = this.authentificationService.isLoggedIn ?
+      'Vous êtes connecté.' : 'Identifiant ou mot de passe incorrect.';
+  }
+
 }

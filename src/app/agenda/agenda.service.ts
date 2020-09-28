@@ -7,7 +7,7 @@ import { Appointment } from '../model/appointment';
 @Injectable({
     providedIn: 'root'
 })
-// @ts-ignore
+
 export class AgendaDisplayService {
   private agendaUrl = 'https://vetolibapi.herokuapp.com/api/v1/appointment/agenda/veterinary?veterinary_nordinal='+ localStorage.getItem('nordinal');
 

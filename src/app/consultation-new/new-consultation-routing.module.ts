@@ -1,9 +1,9 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NewClinicComponent } from './new-clinic.component';
+import {NewConsultationComponent} from './new-consultation.component';
 
 const newclinicRoutes: Routes = [
-  { path: 'clinic', component: NewClinicComponent}
+  { path: 'consultation', component: NewConsultationComponent}
 ];
 
 
@@ -15,4 +15,5 @@ const newclinicRoutes: Routes = [
     RouterModule
   ]
 })
-export class NewClinicRoutingModule {}
+// @ts-ignore
+export class NewConsultationRoutingModule {}

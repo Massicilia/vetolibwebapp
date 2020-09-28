@@ -1,75 +1,93 @@
-import {
-  Component,
-  AfterViewInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-  ChangeDetectorRef
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Appointment} from '../model/appointment';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, tap} from 'rxjs/operators';
 
-import { NgForm } from '@angular/forms';
-import {Router} from '@angular/router';
-//import {async} from '@angular/core/testing';
 @Component({
-  selector: 'stripe-payment',
+  selector: 'app-stripe-payment',
   templateUrl: './stripe-payment.component.html',
-  styleUrls: ['./stripe-payment.component.css'],
+  styleUrls: ['./stripe-payment.component.css']
 })
-export class StripePaymentComponent implements AfterViewInit, OnDestroy {
+export class StripePaymentComponent implements OnDestroy, AfterViewInit {
   @ViewChild('cardInfo') cardInfo: ElementRef;
-  isSent: boolean = false;
-  isFailed: boolean = false;
+  _totalAmount: number;
   card: any;
   cardHandler = this.onChange.bind(this);
-  error: string;
-
-  constructor(private cd: ChangeDetectorRef, private router: Router) {
+  cardError: string;
+  constructor(private cd: ChangeDetectorRef,
+              private http: HttpClient,
+              @Inject(MAT_DIALOG_DATA) private data: any,
+              private dialogRef: MatDialogRef<StripePaymentComponent>) {
+      this._totalAmount = data['totalAmount'];
   }
-
+  ngOnDestroy() {
+    if (this.card) {
+      // We remove event listener here to keep memory clean
+      this.card.removeEventListener('change', this.cardHandler);
+      this.card.destroy();
+    }
+  }
   ngAfterViewInit() {
-    const style = {
+    this.initiateCardElement();
+  }
+  initiateCardElement() {
+    // Giving a base style here, but most of the style is in scss file
+    const cardStyle = {
       base: {
-        lineHeight: '24px',
-        fontFamily: 'monospace',
+        color: '#32325d',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSmoothing: 'antialiased',
-        fontSize: '19px',
+        fontSize: '16px',
         '::placeholder': {
-          color: 'purple'
-        }
-      }
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
     };
-
-    this.card = elements.create('card', {style});
+    this.card = elements.create('card', {cardStyle});
     this.card.mount(this.cardInfo.nativeElement);
-
     this.card.addEventListener('change', this.cardHandler);
   }
-
-  ngOnDestroy() {
-    this.card.removeEventListener('change', this.cardHandler);
-    this.card.destroy();
-  }
-
   onChange({error}) {
     if (error) {
-      this.error = error.message;
+      this.cardError = error.message;
     } else {
-      this.error = null;
+      this.cardError = null;
     }
     this.cd.detectChanges();
   }
-
-  async onSubmit(form: NgForm) {
+  async createStripeToken() {
     const {token, error} = await stripe.createToken(this.card);
-    if (error) {
-      this.isFailed = true;
-      console.log('Something is wrong:', error);
+    if (token) {
+      this.onSuccess(token);
+      this.addCreditCard(token.id);
     } else {
-      this.isSent = true;
-      console.log('Success!', token);
-      let redirect = '/facturation';
-      this.router.navigate([redirect]);
-      //<span class = "code-annotation" > ...send the token to the your backend to process the charge</span>
+      this.onError(error);
     }
   }
+  onSuccess(token) {
+    //this.dialogRef.close({token});
+    console.log(token);
+  }
+  onError(error) {
+    if (error.message) {
+      this.cardError = error.message;
+    }
+  }
+  addCreditCard(tokenID: string): Observable<string>{
+      console.log('addcreditcard');
+      const apiURL = 'https://vetolibapi.herokuapp.com/api/v1/card-wallet';
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json'
+        })
+      };
+      return this.http.post<string>(apiURL, tokenID, httpOptions)
+        .pipe()
+    }
 }

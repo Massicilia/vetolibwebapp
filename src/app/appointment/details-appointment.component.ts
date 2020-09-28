@@ -14,6 +14,7 @@ export class DetailsAppointmentComponent implements OnInit {
   public petowner: Petowner = null;
   public date:String = null;
   public idpetowner:Number = null;
+  public idpet:Number = null;
 
   constructor(private route: ActivatedRoute, private router: Router, private datePipe : DatePipe) {  }
 
@@ -22,6 +23,7 @@ export class DetailsAppointmentComponent implements OnInit {
     if(this.appointment != null){
       this.date = this.getDateFormat();
       this.idpetowner = this.appointment.petowner_idpetownerappoint;
+      this.idpet = this.appointment.pet_idpetappoint;
     }
   }
 

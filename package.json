@@ -44,6 +44,7 @@
     "moment": "^2.27.0",
     "payform": "^1.4.0",
     "rxjs": "~6.5.5",
+    "stripe-angular": "^1.2.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

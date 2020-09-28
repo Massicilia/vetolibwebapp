@@ -4,14 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NewClinicRoutingModule } from './new-clinic-routing.module';
-import { NewClinicComponent} from './new-clinic.component';
-import { NewClinicService } from './new-clinic.service';
+import { NewConsultationRoutingModule } from './new-consultation-routing.module';
+import { NewConsultationComponent} from './new-consultation.component';
+import { NewConsultationService } from './new-consultation.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    NewClinicRoutingModule,
+    NewConsultationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
@@ -19,12 +19,12 @@ import { NewClinicService } from './new-clinic.service';
     MatInputModule
   ],
   declarations: [
-    NewClinicComponent,
+    NewConsultationComponent,
   ],
   exports: [
-    NewClinicComponent
+    NewConsultationComponent
   ],
-  providers: [NewClinicService]
+  providers: [NewConsultationService]
 })
-
-export class NewClinicModule { }
+// @ts-ignore
+export class NewConsultationModule { }

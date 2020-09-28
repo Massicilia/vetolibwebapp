@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'forgotten-password',
@@ -8,7 +8,8 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 export class ForgottenPasswordComponent implements OnInit {
 
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit(): void {}
 

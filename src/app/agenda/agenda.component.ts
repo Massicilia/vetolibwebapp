@@ -1,20 +1,14 @@
-import {Component, HostListener, ViewChild} from '@angular/core';
+import { Component } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-
-
 import {
-  EventSettingsModel, DayService, WeekService, WorkWeekService, MonthService,
-  AgendaService, ScheduleComponent, View,ResizeService, DragAndDropService
+  DayService, WeekService, WorkWeekService, MonthService,
+  AgendaService, ResizeService, DragAndDropService
 } from '@syncfusion/ej2-angular-schedule';
 import { L10n, loadCldr } from '@syncfusion/ej2-base';
-import {DatePipe, Location} from '@angular/common';
-import {Appointment} from '../model/appointment';
-import {AgendaResolver} from './agenda.resolver';
-import {ActivatedRoute} from '@angular/router';
-
-export interface User {
-  selectedDate: Date;
-}
+import { DatePipe, Location } from '@angular/common';
+import { Appointment } from '../model/appointment';
+import { AgendaResolver } from './agenda.resolver';
+import { ActivatedRoute } from '@angular/router';
 export interface JSONUser {
   selectedDate: string;
 }
@@ -23,7 +17,6 @@ export interface Planning {
   reason: string;
   time: string;
 }
-
 declare let require: Function;
 loadCldr(
   require('cldr-data/supplemental/numberingSystems.json'),
@@ -144,27 +137,28 @@ L10n.load({
 @Component({
   selector: 'agenda',
   templateUrl: './agenda.component.html',
-  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService,ResizeService, DragAndDropService, DatePipe],
+  providers: [ DayService, WeekService, WorkWeekService, MonthService, AgendaService,ResizeService, DragAndDropService, DatePipe ],
   encapsulation: ViewEncapsulation.None
 })
-// @ts-ignore
+
 export class AgendaComponent {
   public user: JSONUser;
   public JSONData: JSONUser = new class implements JSONUser {
     selectedDate: string;
   };
   public model_result: string = JSON.stringify(this.JSONData);
-
   public startWeek: number = 1;
   public today: Date = new Date();
   public isAppoint: boolean = false;
   public isWeekend: boolean = false;
   public appointOfDay: Planning[] = null;
   public appointments: Appointment[] = null;
-  constructor(private location: Location,private activatedRoute: ActivatedRoute, private agendaResolver: AgendaResolver, private datePipe : DatePipe) {}
+  constructor( private location: Location,
+               private activatedRoute: ActivatedRoute,
+               private agendaResolver: AgendaResolver,
+               private datePipe : DatePipe) {}
 
   ngOnInit() {
-    console.log('location: '+ this.location.path())
     this.JSONData.selectedDate = this.today.toString();
     this.user = this.JSONData;
     this.activatedRoute.data.subscribe((data: { appointments: Appointment[] }) => {
@@ -183,7 +177,7 @@ export class AgendaComponent {
   getAppointmentsOfDay(date: Date){
     var dateFormat = this.getDateFormat(date);
     this.appointOfDay = this.appointOfDay || [];
-    //get appointments of the day
+
     for(let index = 0; index< this.appointments.length; index++) {
       var appointdate = this.getDateFormat(this.appointments[index].date);
       if(dateFormat == appointdate){

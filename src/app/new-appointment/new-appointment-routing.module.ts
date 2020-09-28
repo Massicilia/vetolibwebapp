@@ -19,5 +19,5 @@ const agendaRoutes: Routes = [
     RouterModule
   ]
 })
-// @ts-ignore
+
 export class NewAppointmentRoutingModule { }

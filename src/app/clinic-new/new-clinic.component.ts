@@ -1,26 +1,18 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import {NewClinicService} from './new-clinic.service';
-import {Clinic} from '../model/clinic';
-import {map, startWith} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {Pet} from '../model/pet';
-import {Petowner} from '../model/petowner';
-import {Appointment} from '../model/appointment';
-import {Veterinary} from '../model/veterinary';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NewClinicService } from './new-clinic.service';
+import { Clinic } from '../model/clinic';
 
 @Component({
   selector: 'new-clinic',
   templateUrl: './new-clinic.component.html',
-  providers: [NewClinicService]
+  providers: [ NewClinicService ]
 })
-// @ts-ignore
+
 export class NewClinicComponent implements OnInit {
   public nsiret: number = null;
   public clinicchoice:boolean = true;
   public message: string;
-
   public clinic: Clinic;
 
   constructor(private route: ActivatedRoute, private router: Router, private newClinicService: NewClinicService) {}
@@ -28,13 +20,13 @@ export class NewClinicComponent implements OnInit {
   ngOnInit(): void {
     this.clinic = new Clinic();
   }
-
+  /**
+   *
+   * @param clinic
+   */
   addClinic(clinic:Clinic){
-
-    console.log('name : '+ this.clinic.name);
     this.newClinicService.addClinic(clinic).subscribe(
       data => {
-        console.log('added '+ data);
         this.setMessage(clinic.nsiret);
       },
       error => {
@@ -42,7 +34,10 @@ export class NewClinicComponent implements OnInit {
       });
 
   }
-
+  /**
+   *
+   * @param nsiret
+   */
   setMessage(nsiret: number) {
     if(this.newClinicService.isDuplicated){
       this.message = ' Une clinique avec ces informations existe déjà'
@@ -55,5 +50,4 @@ export class NewClinicComponent implements OnInit {
       }
     }
   }
-
 }

@@ -1,12 +1,13 @@
-
-<form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
-  <div class="form-row">
-    <h3>Paiement</h3>
-    <p *ngIf="isFailed"><em style="color: red">L'enregistrement de la carte de crédit a échoué</em></p>
-    <p *ngIf="isSent"><em style="color: red">La carte de crédit a été enregistrée</em></p>
-    <label for="card-info">Entrer les informations de votre carte</label>
+<form (ngSubmit)="createStripeToken()" class="checkout">
+  <label for="card-info">Card Info</label>
+  <div id="form-field">
     <div id="card-info" #cardInfo></div>
-    <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+    <button id="submit-button" type="submit">
+      Pay ${{_totalAmount}}
+    </button>
+    <mat-error id="card-errors" role="alert" *ngIf="cardError">
+      <mat-icon style="color: #f44336">cancel</mat-icon>
+      &nbsp;{{ cardError }}
+    </mat-error>
   </div>
-  <button>Ajouter une carte de crédit</button>
 </form>

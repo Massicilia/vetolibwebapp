@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {tap, delay, catchError} from 'rxjs/operators';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Connexion} from './login.component';
+import { tap, delay, catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Connexion } from './login.component';
 
 @Injectable()
 export class AuthentificationService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
   isLoggedIn: boolean = false;
   redirectUrl: string = '/agenda';
 
+  /**
+   *
+   * @param email
+   * @param password
+   */
   login(email: string, password: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -23,15 +27,27 @@ export class AuthentificationService {
       );
   }
 
+  /**
+   *
+   */
   logout(): void {
     localStorage.clear();
     this.isLoggedIn = false;
   }
 
+  /**
+   *
+   * @param log
+   */
   private log(log: string){
     console.info(log);
   }
 
+  /**
+   *
+   * @param operation
+   * @param result
+   */
   private handleError<T>(operation='operation', result?: T){
     return (error: any): Observable<T> => {
       console.log(error);
