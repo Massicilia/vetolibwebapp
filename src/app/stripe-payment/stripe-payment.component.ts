@@ -107,14 +107,13 @@ export class StripePaymentComponent implements OnDestroy, AfterViewInit {
         });
     }
   getSetupIntent() {
-    console.log(localStorage.getItem('nordinal'));
     let bodyParams = {veterinary_nordinal : localStorage.getItem('nordinal')};
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
-    return this.http.post<string>("https://vetolibapi.herokuapp.com/api/v1/cardwallet/createsetupintent", bodyParams, httpOptions)
+    return this.http.post<string>("https://vetolibapi.herokuapp.com/api/v1/card-wallet/createsetupintent", bodyParams, httpOptions)
       .toPromise()
       .then(function(response) {
         console.log('reponse : '+ response);
