@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DetailsAppointmentComponent }    from './details-appointment.component';
 import { PetownerComponent }    from './petowner.component';
 import { AppointmentDetailsResolver } from './appointment-details.resolver';
-import {NewAppointmentComponent} from '../new-appointment/new-appointment.component';
+import {NewAppointmentComponent} from '../appointment-new/new-appointment.component';
 import {AuthGuard} from '../auth-guard.service';
 
 const agendaRoutes: Routes = [

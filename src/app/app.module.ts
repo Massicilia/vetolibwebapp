@@ -10,7 +10,7 @@ import { AgendaModule } from './agenda/agenda.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { HealthbookModule } from './healthbook/healthbook.module';
 import { HealthbookModificationModule } from './healthbook-modification/healthbook-modification.module';
-import { NewAppointmentModule } from './new-appointment/new-appointment.module';
+import { NewAppointmentModule } from './appointment-new/new-appointment.module';
 import { AuthentificationModule } from './authentification/authentification.module';
 import { LogoutModule } from './logout/logout.module';
 import { BillingandinvoicesModule } from './billingandinvoices/billingandinvoices.module';

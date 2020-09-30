@@ -19,7 +19,8 @@ export class StripePaymentComponent implements OnDestroy, AfterViewInit {
   constructor(private cd: ChangeDetectorRef,
               private http: HttpClient,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              private dialogRef: MatDialogRef<StripePaymentComponent>) {
+              private dialogRef: MatDialogRef<StripePaymentComponent>,
+              private _elementRef : ElementRef) {
       this._totalAmount = data['totalAmount'];
   }
   ngOnDestroy() {
@@ -62,13 +63,7 @@ export class StripePaymentComponent implements OnDestroy, AfterViewInit {
     this.cd.detectChanges();
   }
   async createStripeToken() {
-    const {token, error} = await stripe.createToken(this.card);
-    if (token) {
-      this.onSuccess(token);
-      this.addCreditCard(token.id);
-    } else {
-      this.onError(error);
-    }
+    this.getSetupIntent()
   }
   onSuccess(token) {
     //this.dialogRef.close({token});
@@ -90,4 +85,72 @@ export class StripePaymentComponent implements OnDestroy, AfterViewInit {
       return this.http.post<string>(apiURL, tokenID, httpOptions)
         .pipe()
     }
+  getStripeElements(setupIntent) {
+      this.changeLoadingState(true);
+      var email = this._elementRef.nativeElement.querySelector(`email`);
+      stripe
+        .confirmCardSetup(setupIntent.client_secret, {
+          payment_method: {
+            card: this.card,
+            billing_details: { email: email }
+          }
+        })
+        .then(function(result) {
+          if (result.error) {
+            this.changeLoadingState(false);
+            var displayError = this._elementRef.nativeElement.querySelector(`card-errors`);
+            displayError.textContent = result.error.message;
+          } else {
+            // The PaymentMethod was successfully set up
+            this.orderComplete(stripe, setupIntent.client_secret);
+          }
+        });
+    }
+  getSetupIntent() {
+    console.log(localStorage.getItem('nordinal'));
+    return fetch("https://vetolibapi.herokuapp.com/api/v1/cardwallet/createsetupintent",{
+      mode: 'no-cors',
+      method: "post",
+      body: JSON.stringify({veterinary_nordinal: localStorage.getItem('nordinal')}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(function(response) {
+        console.log('reponse : '+ response.json());
+        return response;
+      })
+      .then(function(setupIntent) {
+        console.log(setupIntent);
+        this.getStripeElements(setupIntent);
+      });
+  }
+  changeLoadingState(isLoading) {
+    if (isLoading) {
+      document.querySelector("button").disabled = true;
+      document.querySelector("#spinner").classList.remove("hidden");
+      document.querySelector("#button-text").classList.add("hidden");
+    } else {
+      document.querySelector("button").disabled = false;
+      document.querySelector("#spinner").classList.add("hidden");
+      document.querySelector("#button-text").classList.remove("hidden");
+    }
+  }
+  /* Shows a success / error message when the payment is complete */
+  orderComplete(stripe, clientSecret) {
+    stripe.retrieveSetupIntent(clientSecret).then(function(result) {
+      var setupIntent = result.setupIntent;
+      var setupIntentJson = JSON.stringify(setupIntent, null, 2);
+
+      document.querySelector(".sr-payment-form").classList.add("hidden");
+      document.querySelector(".sr-result").classList.remove("hidden");
+      document.querySelector("pre").textContent = setupIntentJson;
+      setTimeout(function() {
+        document.querySelector(".sr-result").classList.add("expand");
+      }, 200);
+
+      this.changeLoadingState(false);
+    });
+  }
+
 }
