@@ -40,7 +40,7 @@
     "@syncfusion/ej2-popups": "^18.2.46",
     "@syncfusion/ej2-splitbuttons": "^18.2.44",
     "angular-polyfills": "^1.0.1",
-    "cldr-data": "^36.0.0",
+    "cldr-data": "^36.0.1",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
